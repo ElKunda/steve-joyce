@@ -11,7 +11,7 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -22,7 +22,6 @@
     }
     body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--ivoire); color: var(--noir-velours); }
     .font-serif { font-family: 'Cormorant Garamond', serif; }
-    .font-script { font-family: 'Great Vibes', cursive; }
   </style>
 </head>
 <body class="bg-[#FAF9F6] text-[#1F151D] antialiased selection:bg-[#E0C179]/30 selection:text-[#382333]">
@@ -35,71 +34,36 @@
     </a>
   </div>
 
-  <!-- SECTION 1 : ACCUEIL & INVITATION (Frame agrandie & optimisée mobile) -->
-  <section class="min-h-screen flex flex-col justify-center items-center text-center px-2 py-6 relative bg-[#1F151D] overflow-hidden">
+  <!-- SECTION 1 : ACCUEIL (Frame designé avec texte intégré + Nom de l'invité) -->
+  <section class="min-h-screen flex flex-col justify-center items-center text-center p-0 relative bg-[#1F151D] overflow-hidden">
     
-    <div class="relative w-full max-w-lg md:max-w-xl h-[84vh] md:h-[88vh] flex flex-col justify-center items-center text-center p-6 md:p-12">
-      <img src="frame.png" alt="Cadre" class="absolute inset-0 w-full h-full object-contain pointer-events-none z-0">
+    <div class="relative w-full h-screen flex flex-col justify-center items-center text-center">
+      <img src="frame.png" alt="Cadre" class="absolute inset-0 w-full h-full object-cover md:object-contain pointer-events-none z-0">
       
-      <div class="max-w-[300px] md:max-w-md mx-auto space-y-5 relative z-10">
-        
-        <!-- Nom dynamique de l'invité -->
+      <!-- Nom de l'invité positionné à l'intérieur du frame -->
+      <div class="relative z-10 mb-12 md:mb-16">
         <div class="inline-block bg-[#1F151D]/85 backdrop-blur-sm border border-[#E0C179]/40 rounded-xl px-4 py-2 shadow-lg">
           <p id="guest-name" class="font-serif text-base md:text-xl text-[#FAF9F6] italic font-normal">Chers Invités</p>
         </div>
-
-        <div class="space-y-4">
-          <!-- Texte d'invitation avec police plus solennelle -->
-          <p class="font-serif text-base md:text-lg italic font-light text-[#FAF9F6]/95 tracking-wide leading-relaxed">
-            Vous êtes chaleureusement invités à célébrer le mariage de
-          </p>
-          
-          <!-- Image joyce et steve.png agrandie -->
-          <div class="w-52 md:w-68 mx-auto pt-2">
-            <img src="joyce et steve.png" alt="joyce et steve" class="w-full h-auto object-contain drop-shadow-md">
-          </div>
-        </div>
-
       </div>
     </div>
 
     <!-- Flèche de défilement -->
-    <div class="absolute bottom-4 z-10">
+    <div class="absolute bottom-6 z-10">
       <a href="#section-maries" class="inline-flex items-center justify-center w-9 h-9 rounded-full border border-[#E0C179] text-[#E0C179] hover:bg-[#E0C179] hover:text-[#1F151D] transition-all duration-300 shadow-md">
         ↓
       </a>
     </div>
   </section>
 
-  <!-- SECTION 2 : GALERIE (Sans le PNG doublé) -->
-  <section id="section-maries" class="py-24 px-4 bg-[#FAF9F6] border-b border-[#E0C179]/20">
-    <div class="max-w-5xl mx-auto text-center space-y-8">
-      <span class="text-xs uppercase tracking-[0.25em] text-[#382333] font-semibold">Notre Histoire</span>
-      <h2 class="font-serif text-4xl md:text-5xl text-[#382333]">Steve &amp; Joyce</h2>
+  <!-- SECTION 2 : PHOTO UNIQUE SG.PNG -->
+  <section id="section-maries" class="py-24 px-4 bg-[#FAF9F6] border-b border-[#E0C179]/25">
+    <div class="max-w-2xl mx-auto text-center space-y-6">
       
-      <!-- Disposition sur mesure des images -->
-      <div class="flex flex-col md:flex-row items-center justify-center gap-4 px-2">
-        
-        <!-- Image 2 (Gauche) -->
-        <div class="w-full md:w-1/4 aspect-[3/4] rounded-2xl overflow-hidden shadow-xl border-2 border-white ring-1 ring-[#E0C179]/40 bg-[#1F151D]">
-          <img src="img2.jpeg" alt="Steve & Joyce 2" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-        </div>
-        
-        <!-- Image 1 (Centre - Plus grand, format élargi type 4/3 pour ne pas rogner) -->
-        <div class="w-full md:w-2/4 aspect-[4/3] rounded-2xl overflow-hidden shadow-xl border-2 border-white ring-1 ring-[#E0C179]/40 bg-[#1F151D]">
-          <img src="img1.jpeg" alt="Steve & Joyce 1" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-        </div>
-        
-        <!-- Image 4 (Droite) -->
-        <div class="w-full md:w-1/4 aspect-[3/4] rounded-2xl overflow-hidden shadow-xl border-2 border-white ring-1 ring-[#E0C179]/40 bg-[#1F151D]">
-          <img src="img4.jpeg" alt="Steve & Joyce 4" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
-        </div>
-
+      <div class="w-full rounded-3xl overflow-hidden shadow-2xl border-2 border-white ring-1 ring-[#E0C179]/40 bg-[#1F151D]">
+        <img src="SJ.png" alt="Steve & Joyce" class="w-full h-auto object-contain">
       </div>
-      
-      <p class="max-w-xl mx-auto text-stone-600 leading-relaxed text-sm md:text-base font-light italic pt-2">
-        « Deux âmes, un seul cœur. Nous sommes heureux de vous avoir à nos côtés pour franchir cette belle étape et commencer ce nouveau chapitre de notre vie ensemble. »
-      </p>
+
     </div>
   </section>
 
