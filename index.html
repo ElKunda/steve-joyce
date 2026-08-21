@@ -11,7 +11,7 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Great+Vibes&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -35,26 +35,27 @@
     </a>
   </div>
 
-  <!-- SECTION 1 : ACCUEIL & INVITATION (Textes réduits + image joyce et steve.png dans le frame) -->
-  <section class="min-h-screen flex flex-col justify-center items-center text-center px-4 py-16 relative bg-[#1F151D] overflow-hidden">
+  <!-- SECTION 1 : ACCUEIL & INVITATION (Frame agrandie & optimisée mobile) -->
+  <section class="min-h-screen flex flex-col justify-center items-center text-center px-2 py-6 relative bg-[#1F151D] overflow-hidden">
     
-    <div class="relative w-full max-w-xl aspect-square flex flex-col justify-center items-center text-center p-8 md:p-16">
+    <div class="relative w-full max-w-lg md:max-w-xl h-[84vh] md:h-[88vh] flex flex-col justify-center items-center text-center p-6 md:p-12">
       <img src="frame.png" alt="Cadre" class="absolute inset-0 w-full h-full object-contain pointer-events-none z-0">
       
-      <div class="max-w-[260px] md:max-w-xs mx-auto space-y-3 relative z-10">
-        
-        <p class="text-[#E0C179] font-medium uppercase tracking-[0.3em] text-[9px] md:text-[10px]">Invitation Officielle</p>
+      <div class="max-w-[300px] md:max-w-md mx-auto space-y-5 relative z-10">
         
         <!-- Nom dynamique de l'invité -->
-        <div class="inline-block bg-[#1F151D]/85 backdrop-blur-sm border border-[#E0C179]/40 rounded-xl px-3 py-1.5 shadow-lg">
+        <div class="inline-block bg-[#1F151D]/85 backdrop-blur-sm border border-[#E0C179]/40 rounded-xl px-4 py-2 shadow-lg">
           <p id="guest-name" class="font-serif text-base md:text-xl text-[#FAF9F6] italic font-normal">Chers Invités</p>
         </div>
 
-        <div class="space-y-1.5">
-          <p class="text-[#FAF9F6]/80 text-[11px] md:text-xs font-light tracking-wide">Vous êtes chaleureusement invités à célébrer le mariage de</p>
+        <div class="space-y-4">
+          <!-- Texte d'invitation avec police plus solennelle -->
+          <p class="font-serif text-base md:text-lg italic font-light text-[#FAF9F6]/95 tracking-wide leading-relaxed">
+            Vous êtes chaleureusement invités à célébrer le mariage de
+          </p>
           
-          <!-- Image joyce et steve.png intégrée à la place du texte -->
-          <div class="w-36 md:w-44 mx-auto pt-1">
+          <!-- Image joyce et steve.png agrandie -->
+          <div class="w-52 md:w-68 mx-auto pt-2">
             <img src="joyce et steve.png" alt="joyce et steve" class="w-full h-auto object-contain drop-shadow-md">
           </div>
         </div>
@@ -63,14 +64,14 @@
     </div>
 
     <!-- Flèche de défilement -->
-    <div class="absolute bottom-6 z-10">
-      <a href="#section-maries" class="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#E0C179] text-[#E0C179] hover:bg-[#E0C179] hover:text-[#1F151D] transition-all duration-300 shadow-md">
+    <div class="absolute bottom-4 z-10">
+      <a href="#section-maries" class="inline-flex items-center justify-center w-9 h-9 rounded-full border border-[#E0C179] text-[#E0C179] hover:bg-[#E0C179] hover:text-[#1F151D] transition-all duration-300 shadow-md">
         ↓
       </a>
     </div>
   </section>
 
-  <!-- SECTION 2 : GALERIE (Image 2 à gauche, Image 1 au centre élargie, Image 4 à droite) -->
+  <!-- SECTION 2 : GALERIE (Sans le PNG doublé) -->
   <section id="section-maries" class="py-24 px-4 bg-[#FAF9F6] border-b border-[#E0C179]/20">
     <div class="max-w-5xl mx-auto text-center space-y-8">
       <span class="text-xs uppercase tracking-[0.25em] text-[#382333] font-semibold">Notre Histoire</span>
@@ -94,11 +95,6 @@
           <img src="img4.jpeg" alt="Steve & Joyce 4" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
         </div>
 
-      </div>
-
-      <!-- Élément graphique : joyce et steve.png -->
-      <div class="max-w-xs mx-auto pt-4">
-        <img src="joyce et steve.png" alt="joyce et steve" class="w-full h-auto object-contain drop-shadow-md">
       </div>
       
       <p class="max-w-xl mx-auto text-stone-600 leading-relaxed text-sm md:text-base font-light italic pt-2">
