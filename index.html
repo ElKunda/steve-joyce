@@ -23,19 +23,19 @@
     body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--ivoire); color: var(--noir-velours); }
     .font-serif { font-family: 'Cormorant Garamond', serif; }
 
-    /* Overlay global avec gestion du fondu */
+    /* Overlay global */
     #gates-overlay {
       transition: opacity 1.2s ease-in-out;
       will-change: opacity;
     }
 
-    /* Animation d'ouverture horizontale des volets LY (Haut) et LK (Bas) */
+    /* Animation d'ouverture en portail (Gauche / Droite) */
     .envelope-panel {
       transition: transform 3.0s cubic-bezier(0.4, 0, 0.2, 1);
       will-change: transform;
     }
 
-    /* Masquage fluide de la boîte de dialogue dans l'enveloppe */
+    /* Masquage du formulaire */
     .auth-box {
       transition: opacity 1.0s ease-in-out;
     }
@@ -43,23 +43,23 @@
 </head>
 <body class="bg-[#FAF9F6] text-[#1F151D] antialiased selection:bg-[#E0C179]/30 selection:text-[#382333]">
 
-  <!-- OVERLAY GLOBAL : ENVELOPPE HORIZONTALE LY (HAUT) & LK (BAS) -->
+  <!-- OVERLAY GLOBAL : PORTAIL EMB OÎTÉ GAUCHE (ly.png) & DROITE (lk.png) -->
   <div id="gates-overlay" class="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-white">
     
-    <!-- LUEUR BLANCHE & DORÉE EN ARRIÈRE-PLAN -->
+    <!-- LUEUR DORÉE EN ARRIÈRE-PLAN -->
     <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_#ffffff_0%,_#fffdf4_35%,_#fcf3cc_70%,_#ebd492_100%)] z-0"></div>
 
-    <!-- VOLET HAUT (LY) -->
-    <div id="top-envelope" class="envelope-panel absolute top-0 left-0 w-full h-1/2 z-10 overflow-hidden shadow-2xl">
-      <img src="ly.png" alt="Partie Haute Enveloppe" class="w-full h-full object-cover object-bottom">
+    <!-- PARTIE DROITE : lk.png (Glisse sous ly.png et s'ouvre vers la droite) -->
+    <div id="right-envelope" class="envelope-panel absolute top-0 right-0 w-[60%] h-full z-10 overflow-hidden shadow-2xl">
+      <img src="lk.png" alt="Partie lk" class="w-full h-full object-cover object-left">
     </div>
 
-    <!-- VOLET BAS (LK) -->
-    <div id="bottom-envelope" class="envelope-panel absolute bottom-0 left-0 w-full h-1/2 z-10 overflow-hidden shadow-2xl">
-      <img src="lk.png" alt="Partie Basse Enveloppe" class="w-full h-full object-cover object-top">
+    <!-- PARTIE GAUCHE : ly.png (Recouvre la partie droite pour l'emboîtement et s'ouvre vers la gauche) -->
+    <div id="left-envelope" class="envelope-panel absolute top-0 left-0 w-[60%] h-full z-20 overflow-hidden shadow-2xl">
+      <img src="ly.png" alt="Partie ly" class="w-full h-full object-cover object-right">
     </div>
 
-    <!-- POP-UP DE SAISIE DU NOM (RESTE INTÉGRÉ AU CENTRE DE L'ENVELOPPE AU MOMENT DE LA SÉPARATION) -->
+    <!-- POP-UP DE SAISIE DU NOM (FIXÉ AU CENTRE AU MOMENT DE L'OUVERTURE) -->
     <div id="auth-modal-container" class="absolute inset-0 z-30 flex items-center justify-center p-4">
       <div id="auth-box" class="auth-box bg-[#382333]/95 border border-[#E0C179]/50 p-6 sm:p-8 md:p-10 rounded-3xl shadow-2xl max-w-md w-full text-center space-y-6 relative backdrop-blur-md">
         
@@ -103,7 +103,6 @@
       <div class="absolute top-[38%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-4/5 text-center space-y-2">
         <p id="guest-civilite" class="text-[10px] sm:text-[11px] uppercase tracking-[0.25em] text-[#E0C179] font-medium">Invité(e)</p>
         <div>
-          <!-- NOM RÉDUIT -->
           <p id="guest-name" class="font-serif text-sm sm:text-base md:text-xl text-[#FAF9F6] italic font-medium tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] border-b border-[#E0C179]/60 pb-2 inline-block max-w-full break-words">Chers Invités</p>
         </div>
         <div id="guest-table-container" class="pt-1">
@@ -403,30 +402,30 @@
         errorMessage.classList.add('hidden');
       }
 
-      // Force le défilement au tout début de la page
+      // Remonte immédiatement tout en haut de la page d'invitation
       window.scrollTo(0, 0);
 
-      // 1. Afficher directement le nom tapé sur l'invitation principale
+      // Met à jour le nom saisi
       document.getElementById('guest-civilite').textContent = 'Invité(e)';
       document.getElementById('guest-name').textContent = inputNameVal;
       document.getElementById('guest-table').textContent = 'Table générale';
       document.getElementById('guest-table-container').classList.remove('hidden');
 
-      // 2. Fondu doux du formulaire au centre de l'enveloppe
+      // Masque le formulaire au centre
       const authBox = document.getElementById('auth-box');
       if (authBox) {
         authBox.style.opacity = '0';
       }
 
-      // 3. Déclenchement de la séparation lente des 2 volets de l'enveloppe (LY vers le haut, LK vers le bas)
-      const topEnvelope = document.getElementById('top-envelope');
-      const bottomEnvelope = document.getElementById('bottom-envelope');
+      // Déclenche l'ouverture en portail : ly.png vers la gauche, lk.png vers la droite
+      const leftEnvelope = document.getElementById('left-envelope');
+      const rightEnvelope = document.getElementById('right-envelope');
       const overlay = document.getElementById('gates-overlay');
 
-      if (topEnvelope) topEnvelope.style.transform = 'translateY(-100%)';
-      if (bottomEnvelope) bottomEnvelope.style.transform = 'translateY(100%)';
+      if (leftEnvelope) leftEnvelope.style.transform = 'translateX(-100%)';
+      if (rightEnvelope) rightEnvelope.style.transform = 'translateX(100%)';
 
-      // 4. Retrait de l'overlay global une fois la séparation achevée
+      // Retrait définitif de l'overlay après la transition
       if (overlay) {
         setTimeout(() => {
           overlay.style.opacity = '0';
@@ -437,7 +436,7 @@
       }
     }
 
-    // Compte à rebours dynamique (Date cible : 12 Septembre 2026 à 20h00)
+    // Compte à rebours dynamique
     const targetDate = new Date("September 12, 2026 20:00:00").getTime();
 
     function updateCountdown() {
@@ -460,7 +459,7 @@
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    // Soumission du formulaire RSVP
+    // Soumission RSVP
     document.getElementById('wedding-form').addEventListener('submit', function(e) {
       e.preventDefault();
 
