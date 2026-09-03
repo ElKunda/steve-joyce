@@ -23,42 +23,45 @@
     body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--ivoire); color: var(--noir-velours); }
     .font-serif { font-family: 'Cormorant Garamond', serif; }
 
-    /* Overlay global avec gestion fluide du fondu de transition */
+    /* Overlay global avec gestion du fondu */
     #gates-overlay {
-      transition: opacity 1.5s ease-in-out;
+      transition: opacity 1.2s ease-in-out;
       will-change: opacity;
     }
 
-    /* Début lent (effet porte lourde) puis accélération rapide vers la fin (3.5s) */
-    .gate-panel {
-      transition: transform 3.5s cubic-bezier(0.5, 0, 0.1, 1);
+    /* Animation d'ouverture horizontale des volets LY (Haut) et LK (Bas) */
+    .envelope-panel {
+      transition: transform 3.0s cubic-bezier(0.4, 0, 0.2, 1);
       will-change: transform;
     }
-    /* Animation du sceau coordonnée */
-    .gate-seal {
-      transition: transform 2.8s cubic-bezier(0.5, 0, 0.1, 1), opacity 1.0s ease-in-out;
-      will-change: transform, opacity;
+
+    /* Masquage fluide de la boîte de dialogue dans l'enveloppe */
+    .auth-box {
+      transition: opacity 1.0s ease-in-out;
     }
   </style>
 </head>
 <body class="bg-[#FAF9F6] text-[#1F151D] antialiased selection:bg-[#E0C179]/30 selection:text-[#382333]">
 
-  <!-- OVERLAY GLOBAL : PORTES BATTANTES & LUEUR PARADISIAQUE -->
+  <!-- OVERLAY GLOBAL : ENVELOPPE HORIZONTALE LY (HAUT) & LK (BAS) -->
   <div id="gates-overlay" class="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-white">
     
-    <!-- LUEUR BLANCHE & DORÉE (Effet Portail du Paradis) -->
+    <!-- LUEUR BLANCHE & DORÉE EN ARRIÈRE-PLAN -->
     <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_#ffffff_0%,_#fffdf4_35%,_#fcf3cc_70%,_#ebd492_100%)] z-0"></div>
 
-    <div id="left-door" class="gate-panel absolute top-0 left-0 w-1/2 h-full bg-[#382333] border-r border-[#E0C179]/30 shadow-2xl z-10"></div>
-    <div id="right-door" class="gate-panel absolute top-0 right-0 w-1/2 h-full bg-[#382333] border-l border-[#E0C179]/30 shadow-2xl z-10"></div>
-
-    <div id="gate-seal" class="gate-seal absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none">
-      <img src="sjs.png" alt="Sceau" class="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 object-contain filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.6)]">
+    <!-- VOLET HAUT (LY) -->
+    <div id="top-envelope" class="envelope-panel absolute top-0 left-0 w-full h-1/2 z-10 overflow-hidden shadow-2xl">
+      <img src="LY.png" alt="Partie Haute Enveloppe" class="w-full h-full object-cover object-bottom">
     </div>
 
-    <!-- POP-UP DE SAISIE DU NOM -->
-    <div id="auth-modal-container" class="absolute inset-0 z-40 flex items-center justify-center p-4 bg-[#1F151D]/80 backdrop-blur-md transition-opacity duration-700">
-      <div class="bg-[#382333] border border-[#E0C179]/40 p-6 sm:p-8 md:p-10 rounded-3xl shadow-2xl max-w-md w-full text-center space-y-6 relative">
+    <!-- VOLET BAS (LK) -->
+    <div id="bottom-envelope" class="envelope-panel absolute bottom-0 left-0 w-full h-1/2 z-10 overflow-hidden shadow-2xl">
+      <img src="LK.png" alt="Partie Basse Enveloppe" class="w-full h-full object-cover object-top">
+    </div>
+
+    <!-- POP-UP DE SAISIE DU NOM (RESTE INTÉGRÉ AU CENTRE DE L'ENVELOPPE AU MOMENT DE LA SÉPARATION) -->
+    <div id="auth-modal-container" class="absolute inset-0 z-30 flex items-center justify-center p-4">
+      <div id="auth-box" class="auth-box bg-[#382333]/95 border border-[#E0C179]/50 p-6 sm:p-8 md:p-10 rounded-3xl shadow-2xl max-w-md w-full text-center space-y-6 relative backdrop-blur-md">
         
         <div class="space-y-2">
           <span class="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-[#E0C179] font-semibold">Invitation Exclusive</span>
@@ -92,7 +95,7 @@
   </div>
 
   <!-- SECTION 1 : ACCUEIL -->
-  <section class="min-h-screen flex flex-col justify-center items-center text-center px-4 py-8 sm:py-12 relative overflow-hidden" style="background: radial-gradient(circle at center, #483042 0%, #382333 70%, #22141f 100%);">
+  <section id="section-accueil" class="min-h-screen flex flex-col justify-center items-center text-center px-4 py-8 sm:py-12 relative overflow-hidden" style="background: radial-gradient(circle at center, #483042 0%, #382333 70%, #22141f 100%);">
     
     <div class="relative w-full max-w-[280px] sm:max-w-sm md:max-w-md aspect-[3/4] flex flex-col justify-center items-center text-center p-4 sm:p-6">
       <img src="frame.png" alt="Cadre" class="absolute inset-0 w-full h-full object-contain pointer-events-none z-0 filter drop-shadow-[0_10px_25px_rgba(0,0,0,0.3)]">
@@ -336,7 +339,7 @@
     </div>
   </section>
 
-  <!-- SECTION 6 : CADEAUX & DRESS CODE (NOUVELLE SECTION) -->
+  <!-- SECTION 6 : CADEAUX & DRESS CODE -->
   <section id="section-infos" class="py-16 sm:py-24 px-4 bg-[#382333] text-[#FAF9F6] border-t border-[#E0C179]/20 relative overflow-hidden">
     <div class="max-w-2xl mx-auto text-center space-y-12 relative z-10">
       
@@ -400,42 +403,37 @@
         errorMessage.classList.add('hidden');
       }
 
+      // Force le défilement au tout début de la page
+      window.scrollTo(0, 0);
+
       // 1. Afficher directement le nom tapé sur l'invitation principale
       document.getElementById('guest-civilite').textContent = 'Invité(e)';
       document.getElementById('guest-name').textContent = inputNameVal;
       document.getElementById('guest-table').textContent = 'Table générale';
       document.getElementById('guest-table-container').classList.remove('hidden');
 
-      // 2. Faire disparaître le pop-up de connexion en fondu
-      const modalContainer = document.getElementById('auth-modal-container');
-      if (modalContainer) {
-        modalContainer.style.opacity = '0';
-        setTimeout(() => {
-          modalContainer.style.display = 'none';
-        }, 600);
+      // 2. Fondu doux du formulaire au centre de l'enveloppe
+      const authBox = document.getElementById('auth-box');
+      if (authBox) {
+        authBox.style.opacity = '0';
       }
 
-      // 3. Lancer l'ouverture des portes (début lent, fin rapide)
-      const leftDoor = document.getElementById('left-door');
-      const rightDoor = document.getElementById('right-door');
-      const seal = document.getElementById('gate-seal');
+      // 3. Déclenchement de la séparation lente des 2 volets de l'enveloppe (LY vers le haut, LK vers le bas)
+      const topEnvelope = document.getElementById('top-envelope');
+      const bottomEnvelope = document.getElementById('bottom-envelope');
       const overlay = document.getElementById('gates-overlay');
 
-      if (leftDoor) leftDoor.style.transform = 'translateX(-100%)';
-      if (rightDoor) rightDoor.style.transform = 'translateX(100%)';
-      if (seal) {
-        seal.style.transform = 'translate(-50%, -50%) scale(4) rotate(20deg)';
-        seal.style.opacity = '0';
-      }
+      if (topEnvelope) topEnvelope.style.transform = 'translateY(-100%)';
+      if (bottomEnvelope) bottomEnvelope.style.transform = 'translateY(100%)';
 
-      // 4. Fondu enchaîné final fluide vers l'enveloppe de l'invitation
+      // 4. Retrait de l'overlay global une fois la séparation achevée
       if (overlay) {
         setTimeout(() => {
-          overlay.style.opacity = '0'; // Déclenche le fondu CSS sur 1.5s
+          overlay.style.opacity = '0';
           setTimeout(() => {
             overlay.style.display = 'none';
-          }, 1500); // Nettoie l'élément du DOM après le fondu
-        }, 2200); // Lance le fondu alors que les portes accélèrent vers la fin
+          }, 1200);
+        }, 1800);
       }
     }
 
