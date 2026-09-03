@@ -1,253 +1,396 @@
 <!DOCTYPE html>
 <html lang="fr" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mariage Steve & Joyce - Invitation</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mariage de Steve & Joyce</title>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- Fonts Google -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <style>
-    body {
-      font-family: 'Montserrat', sans-serif;
-      background-color: #FAF8F5;
-      color: #333333;
+    :root {
+      --prune-intense: #382333;
+      --dore-metallise: #E0C179;
+      --ivoire: #FAF9F6;
+      --noir-velours: #1F151D;
     }
-    .font-serif {
-      font-family: 'Playfair Display', serif;
-    }
-    .font-cinzel {
-      font-family: 'Cinzel', serif;
-    }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--ivoire); color: var(--noir-velours); }
+    .font-serif { font-family: 'Cormorant Garamond', serif; }
 
-    /* Animation overlay / portes d'enveloppe */
+    /* Overlay global */
     #gates-overlay {
       transition: opacity 1.2s ease-in-out;
+      will-change: opacity;
     }
-    .envelope-door {
-      transition: transform 1.8s cubic-bezier(0.77, 0, 0.175, 1);
+
+    /* Animation d'ouverture en portail */
+    .envelope-panel {
+      transition: transform 3.0s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform;
+    }
+
+    /* Masquage du formulaire */
+    .auth-box {
+      transition: opacity 1.0s ease-in-out;
     }
   </style>
 </head>
-<body class="bg-[#FAF8F5] text-stone-800 antialiased selection:bg-[#E0C179] selection:text-white relative min-h-screen">
+<body class="bg-[#FAF9F6] text-[#1F151D] antialiased selection:bg-[#E0C179]/30 selection:text-[#382333]">
 
-  <!-- OVERLAY ACCÈS & PORTES ANIMÉES -->
-  <div id="gates-overlay" class="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-[#2A1825]">
+  <!-- OVERLAY GLOBAL : PORTAIL EMB OÎTÉ AVEC BORNES DROITES ALIGNÉES -->
+  <div id="gates-overlay" class="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-white">
     
-    <!-- Porte Gauche -->
-    <div id="left-envelope" class="envelope-door absolute top-0 left-0 w-1/2 h-full bg-[#382333] border-r border-[#E0C179]/30 flex items-center justify-end pr-4 sm:pr-12 shadow-2xl z-10">
-      <div class="hidden sm:block text-right opacity-20 select-none">
-        <p class="font-cinzel text-4xl sm:text-6xl text-[#E0C179]">S & J</p>
-      </div>
+    <!-- LUEUR DORÉE EN ARRIÈRE-PLAN -->
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_#ffffff_0%,_#fffdf4_35%,_#fcf3cc_70%,_#ebd492_100%)] z-0"></div>
+
+    <!-- PARTIE EN DESSOUS : ly.png (Glisse désormais vers la DROITE) -->
+    <div id="left-envelope" class="envelope-panel absolute inset-0 w-full h-full z-10 overflow-hidden">
+      <img src="ly.png" alt="Partie ly" class="w-full h-full object-cover object-right">
     </div>
 
-    <!-- Porte Droite -->
-    <div id="right-envelope" class="envelope-door absolute top-0 right-0 w-1/2 h-full bg-[#382333] border-l border-[#E0C179]/30 flex items-center justify-start pl-4 sm:pl-12 shadow-2xl z-10">
-      <div class="hidden sm:block text-left opacity-20 select-none">
-        <p class="font-cinzel text-4xl sm:text-6xl text-[#E0C179]">12.09.26</p>
-      </div>
+    <!-- PARTIE AU-DESSUS : lk.png (Glisse désormais vers la GAUCHE) -->
+    <div id="right-envelope" class="envelope-panel absolute inset-0 w-full h-full z-20 overflow-hidden drop-shadow-2xl">
+      <img src="lk.png" alt="Partie lk" class="w-full h-full object-cover object-right">
     </div>
 
-    <!-- Modale de Saisie / Vérification Nom -->
-    <div id="auth-box" class="relative z-20 w-[90%] max-w-md bg-[#2A1825]/95 border border-[#E0C179]/40 rounded-2xl p-6 sm:p-8 text-center shadow-2xl backdrop-blur-md transition-opacity duration-500">
-      <div class="w-12 h-12 mx-auto mb-4 rounded-full border border-[#E0C179]/40 flex items-center justify-center text-[#E0C179] font-cinzel text-lg">
-        S&J
-      </div>
-      <h2 class="font-serif text-2xl sm:text-3xl text-[#E0C179] mb-2">Invitation VIP</h2>
-      <p class="text-xs sm:text-sm text-stone-300 mb-6 leading-relaxed">
-        Veuillez saisir votre nom et prénom pour valider votre présence et accéder aux détails.
-      </p>
-
-      <form onsubmit="verifyGuest(event)" class="space-y-4">
-        <div>
-          <input 
-            type="text" 
-            id="guest-input-name" 
-            placeholder="Ex: MAMAN CHRISTINE SULU" 
-            required
-            class="w-full px-4 py-3 bg-[#1F111B] border border-[#E0C179]/30 rounded-xl text-white placeholder-stone-500 text-sm focus:outline-none focus:border-[#E0C179] transition"
-          />
+    <!-- POP-UP DE SAISIE DU NOM -->
+    <div id="auth-modal-container" class="absolute inset-0 z-30 flex items-center justify-center p-4">
+      <div id="auth-box" class="auth-box bg-[#382333]/95 border border-[#E0C179]/50 p-6 sm:p-8 md:p-10 rounded-3xl shadow-2xl max-w-md w-full text-center space-y-6 relative backdrop-blur-md">
+        
+        <div class="space-y-2">
+          <span class="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-[#E0C179] font-semibold">Invitation Exclusive</span>
+          <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl text-[#FAF9F6]">Steve &amp; Joyce</h3>
+          <p class="text-xs text-stone-300 font-light pt-1">Veuillez entrer votre nom et prénom pour accéder à votre invitation.</p>
         </div>
 
-        <p id="error-message" class="text-xs text-rose-400 hidden text-left px-1"></p>
+        <form id="auth-form" onsubmit="verifyGuest(event)" class="space-y-4">
+          <div>
+            <input type="text" id="guest-input-name" required placeholder="Ex : MAMAN CHRISTINE SULU" class="w-full bg-[#1F151D] border border-[#E0C179]/40 text-[#FAF9F6] placeholder-stone-500 px-4 py-3.5 rounded-xl text-xs sm:text-sm focus:outline-none focus:border-[#E0C179] focus:ring-2 focus:ring-[#E0C179]/20 transition-all text-center uppercase">
+          </div>
+          
+          <div id="error-message" class="hidden text-xs text-rose-300 bg-rose-950/50 p-2.5 rounded-lg border border-rose-900/50"></div>
 
-        <button 
-          type="submit" 
-          id="auth-btn"
-          class="w-full py-3 bg-[#E0C179] hover:bg-[#d1b066] text-[#2A1825] font-semibold rounded-xl text-sm transition-all duration-300 shadow-lg active:scale-95"
-        >
-          Accéder à mon invitation
-        </button>
-      </form>
+          <button type="submit" id="auth-btn" class="w-full bg-[#E0C179] active:bg-[#FAF9F6] text-[#382333] font-semibold py-3.5 sm:py-4 rounded-xl shadow-lg transition-all text-xs uppercase tracking-[0.2em] cursor-pointer">
+            Accéder à mon invitation
+          </button>
+        </form>
+
+      </div>
     </div>
+
   </div>
 
-  <!-- CONTENU PRINCIPAL DE L'INVITATION -->
-  <main class="max-w-4xl mx-auto px-4 py-8 sm:py-16 space-y-12 sm:space-y-20">
+  <!-- Bouton Flottant Mobile RSVP -->
+  <div class="fixed bottom-4 right-4 z-40 md:hidden">
+    <a href="#section-formulaire" class="bg-[#382333] text-[#E0C179] border border-[#E0C179]/50 font-medium px-4 py-3 rounded-full shadow-2xl flex items-center gap-2 text-[11px] uppercase tracking-widest backdrop-blur-md active:scale-95 transition-all">
+      <svg class="w-4 h-4 text-[#E0C179]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+      RSVP
+    </a>
+  </div>
 
-    <!-- En-tête / Bannière -->
-    <section class="text-center space-y-4 pt-6">
-      <p class="font-cinzel text-xs sm:text-sm tracking-[0.3em] text-[#8C6D46] uppercase">Union Sacrée</p>
-      <h1 class="font-serif text-4xl sm:text-6xl md:text-7xl text-[#382333] font-normal">
-        Steve <span class="font-serif italic text-[#E0C179]">&amp;</span> Joyce
-      </h1>
-      <p class="text-stone-600 text-sm sm:text-base max-w-lg mx-auto font-light">
-        Ont le bonheur de vous inviter à célébrer leur mariage.
-      </p>
-    </section>
-
-    <!-- Carte d'Accueil Personnalisée de l'Invité -->
-    <section id="guest-card" class="bg-white border border-[#E0C179]/30 rounded-2xl p-6 sm:p-10 shadow-xl text-center space-y-4 relative overflow-hidden">
-      <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#E0C179] to-transparent"></div>
+  <!-- SECTION 1 : ACCUEIL -->
+  <section id="section-accueil" class="min-h-screen flex flex-col justify-center items-center text-center px-4 py-8 sm:py-12 relative overflow-hidden" style="background: radial-gradient(circle at center, #483042 0%, #382333 70%, #22141f 100%);">
+    
+    <div class="relative w-full max-w-[280px] sm:max-w-sm md:max-w-md aspect-[3/4] flex flex-col justify-center items-center text-center p-4 sm:p-6">
+      <img src="frame.png" alt="Cadre" class="absolute inset-0 w-full h-full object-contain pointer-events-none z-0 filter drop-shadow-[0_10px_25px_rgba(0,0,0,0.3)]">
       
-      <p class="text-xs tracking-widest text-stone-400 uppercase font-cinzel">Invitation délivrée à</p>
-      
-      <h2 id="guest-name" class="font-serif text-2xl sm:text-4xl text-[#382333] font-semibold">
-        Chargement...
-      </h2>
+      <div class="absolute top-[38%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-4/5 text-center space-y-2">
+        <p id="guest-civilite" class="text-[10px] sm:text-[11px] uppercase tracking-[0.25em] text-[#E0C179] font-medium">Invité(e)</p>
+        <div>
+          <p id="guest-name" class="font-serif text-sm sm:text-base md:text-xl text-[#FAF9F6] italic font-medium tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] border-b border-[#E0C179]/60 pb-2 inline-block max-w-full break-words">Chers Invités</p>
+        </div>
+        <div id="guest-table-container" class="pt-1">
+          <span class="text-[10px] sm:text-xs tracking-wider text-[#FAF9F6] bg-[#382333]/90 border border-[#E0C179]/40 px-2.5 py-1 rounded-full inline-block shadow-md">
+            Table : <span id="guest-table" class="font-semibold text-[#E0C179]">Table générale</span>
+          </span>
+        </div>
+      </div>
+    </div>
 
-      <div id="guest-table-container" class="inline-block bg-[#FAF8F5] border border-[#E0C179]/40 px-4 py-2 rounded-full mt-2">
-        <p class="text-xs text-stone-600">
-          Placement réservé : <span id="guest-table" class="font-semibold text-[#382333]">—</span>
+    <div class="absolute bottom-4 sm:bottom-6 z-10">
+      <a href="#section-maries" class="inline-flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-[#E0C179]/60 text-[#E0C179] hover:bg-[#E0C179] hover:text-[#382333] transition-all duration-300 shadow-lg backdrop-blur-sm">
+        ↓
+      </a>
+    </div>
+  </section>
+
+  <!-- SECTION 2 : PHOTO UNIQUE SJ.PNG -->
+  <section id="section-maries" class="py-16 sm:py-24 px-4 bg-[#FAF9F6] border-b border-[#E0C179]/20">
+    <div class="max-w-2xl mx-auto text-center space-y-6">
+      <div class="w-full rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border-2 border-white ring-1 ring-[#E0C179]/30 bg-[#1F151D] transform transition-transform duration-700 hover:scale-[1.01]">
+        <img src="SJ.png" alt="Steve & Joyce" class="w-full h-auto object-contain">
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3 : DATE, HEURE & COMPTE À REBOURS -->
+  <section class="py-16 sm:py-24 px-4 bg-[#382333] text-[#FAF9F6] relative overflow-hidden">
+    <div class="max-w-md mx-auto text-center space-y-8 sm:space-y-12 relative z-10">
+      
+      <div class="space-y-2 sm:space-y-3">
+        <span class="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-[#E0C179] font-semibold">Rendez-vous</span>
+        <h3 class="font-serif text-2xl sm:text-3xl md:text-5xl text-[#FAF9F6] tracking-tight">Samedi 12 Septembre 2026</h3>
+        <p class="font-serif text-xl sm:text-2xl md:text-3xl text-[#E0C179] italic">à 20h00</p>
+      </div>
+
+      <div class="space-y-4 pt-2 bg-[#1F151D]/40 p-4 sm:p-6 rounded-3xl border border-[#E0C179]/15 backdrop-blur-sm shadow-xl">
+        <h4 class="font-serif text-xl sm:text-2xl text-[#E0C179] tracking-wider font-normal">Septembre 2026</h4>
+        
+        <div class="max-w-xs mx-auto">
+          <div class="grid grid-cols-7 gap-1 sm:gap-2 text-[10px] sm:text-xs text-[#E0C179]/70 font-semibold mb-3">
+            <span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span>
+          </div>
+
+          <div class="grid grid-cols-7 gap-1 sm:gap-2 text-xs sm:text-sm text-[#FAF9F6] items-center justify-items-center">
+            <span></span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span>
+            <span>7</span><span>8</span><span>9</span><span>10</span><span>11</span>
+            
+            <div class="relative flex items-center justify-center">
+              <span class="w-7 h-7 sm:w-9 sm:h-9 flex items-center justify-center text-[#1F151D] font-bold bg-[#E0C179] rounded-full shadow-[0_0_15px_rgba(224,193,121,0.7)] transform scale-110">
+                12
+              </span>
+            </div>
+            
+            <span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span>
+            <span>20</span><span>21</span><span>22</span><span>23</span><span>24</span><span>25</span><span>26</span>
+            <span>27</span><span>28</span><span>29</span><span>30</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-4 border-t border-[#E0C179]/20">
+        <p class="text-[10px] sm:text-xs uppercase tracking-[0.25em] text-[#E0C179]/90 mb-4 sm:mb-6 font-medium">Compte à Rebours</p>
+        <div class="grid grid-cols-4 gap-2 sm:gap-3 max-w-sm mx-auto">
+          <div class="bg-[#1F151D] border border-[#E0C179]/25 p-2.5 sm:p-3.5 rounded-2xl shadow-lg">
+            <span id="days" class="block font-serif text-xl sm:text-2xl md:text-3xl text-[#FAF9F6] font-light">00</span>
+            <span class="text-[8px] sm:text-[9px] uppercase tracking-widest text-[#E0C179]/80 font-medium mt-1 block">Jours</span>
+          </div>
+          <div class="bg-[#1F151D] border border-[#E0C179]/25 p-2.5 sm:p-3.5 rounded-2xl shadow-lg">
+            <span id="hours" class="block font-serif text-xl sm:text-2xl md:text-3xl text-[#FAF9F6] font-light">00</span>
+            <span class="text-[8px] sm:text-[9px] uppercase tracking-widest text-[#E0C179]/80 font-medium mt-1 block">Heures</span>
+          </div>
+          <div class="bg-[#1F151D] border border-[#E0C179]/25 p-2.5 sm:p-3.5 rounded-2xl shadow-lg">
+            <span id="minutes" class="block font-serif text-xl sm:text-2xl md:text-3xl text-[#FAF9F6] font-light">00</span>
+            <span class="text-[8px] sm:text-[9px] uppercase tracking-widest text-[#E0C179]/80 font-medium mt-1 block">Min</span>
+          </div>
+          <div class="bg-[#1F151D] border border-[#E0C179]/25 p-2.5 sm:p-3.5 rounded-2xl shadow-lg">
+            <span id="seconds" class="block font-serif text-xl sm:text-2xl md:text-3xl text-[#FAF9F6] font-light">00</span>
+            <span class="text-[8px] sm:text-[9px] uppercase tracking-widest text-[#E0C179]/80 font-medium mt-1 block">Sec</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 4 : LIEU & ITINÉRAIRE -->
+  <section id="section-lieu" class="py-16 sm:py-24 px-4 bg-white border-b border-[#E0C179]/20">
+    <div class="max-w-3xl mx-auto text-center space-y-8 sm:space-y-10">
+      
+      <div class="space-y-2 sm:space-y-3">
+        <span class="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-[#382333] font-semibold">Célébration</span>
+        <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl text-[#382333]">Lieu &amp; Itinéraire</h2>
+      </div>
+
+      <div class="space-y-4 bg-[#FAF9F6] p-6 sm:p-8 rounded-3xl border border-[#E0C179]/25 shadow-sm max-w-xl mx-auto">
+        <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl text-[#382333] font-normal">Salle Panassé</h3>
+        <p class="text-sm sm:text-base font-light text-stone-700 flex items-center justify-center gap-2">
+          <svg class="w-5 h-5 text-[#E0C179] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+          N° 5253, Boulevard Triomphal, Kinshasa
         </p>
+        <div>
+          <span class="text-[10px] sm:text-xs uppercase tracking-wider text-[#E0C179] bg-[#1F151D] inline-block px-3 py-1.5 rounded-full font-medium shadow-sm">
+            Réf : En face du Musée National
+          </span>
+        </div>
       </div>
-    </section>
 
-    <!-- Compte à Rebours -->
-    <section class="bg-[#382333] text-[#FAF8F5] rounded-2xl p-6 sm:p-10 text-center space-y-6 shadow-2xl">
-      <h2 class="font-cinzel text-lg sm:text-xl text-[#E0C179] tracking-wider uppercase">Le Grand Jour Approche</h2>
+      <div class="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 pt-2">
+        <a href="https://www.google.com/maps/search/?api=1&query=Salle+Panass%C3%A9+Boulevard+Triomphal+Kinshasa" 
+           target="_blank" 
+           rel="noopener noreferrer"
+           class="w-full sm:w-auto px-6 py-3.5 bg-[#382333] text-[#E0C179] border border-[#E0C179]/40 text-xs font-semibold uppercase tracking-widest rounded-xl hover:bg-[#1F151D] transition-all shadow-lg flex items-center justify-center gap-2.5">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          Google Maps
+        </a>
+        
+        <a href="https://waze.com/ul?q=Salle%20Panasse%20Boulevard%20Triomphal%20Kinshasa&navigate=yes" 
+           target="_blank" 
+           rel="noopener noreferrer"
+           class="w-full sm:w-auto px-6 py-3.5 bg-[#FAF9F6] text-[#382333] border border-[#E0C179]/60 text-xs font-semibold uppercase tracking-widest rounded-xl hover:bg-[#E0C179]/10 transition-all shadow-md flex items-center justify-center gap-2.5">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 15h-2v-2h2zm0-4h-2V7h2z"/></svg>
+          Waze
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 5 : FORMULAIRE RSVP & PRÉFÉRENCES -->
+  <section id="section-formulaire" class="py-16 sm:py-24 px-4 bg-[#FAF9F6]">
+    <div class="max-w-2xl mx-auto bg-white p-5 sm:p-8 md:p-14 rounded-3xl shadow-2xl border border-[#E0C179]/30 space-y-8 sm:space-y-12">
       
-      <div class="grid grid-cols-4 gap-2 sm:gap-6 max-w-md mx-auto">
-        <div class="bg-[#2A1825] p-3 sm:p-4 rounded-xl border border-[#E0C179]/20">
-          <span id="days" class="block font-serif text-2xl sm:text-4xl text-[#E0C179] font-bold">00</span>
-          <span class="text-[10px] sm:text-xs text-stone-300 uppercase">Jours</span>
-        </div>
-        <div class="bg-[#2A1825] p-3 sm:p-4 rounded-xl border border-[#E0C179]/20">
-          <span id="hours" class="block font-serif text-2xl sm:text-4xl text-[#E0C179] font-bold">00</span>
-          <span class="text-[10px] sm:text-xs text-stone-300 uppercase">Heures</span>
-        </div>
-        <div class="bg-[#2A1825] p-3 sm:p-4 rounded-xl border border-[#E0C179]/20">
-          <span id="minutes" class="block font-serif text-2xl sm:text-4xl text-[#E0C179] font-bold">00</span>
-          <span class="text-[10px] sm:text-xs text-stone-300 uppercase">Min</span>
-        </div>
-        <div class="bg-[#2A1825] p-3 sm:p-4 rounded-xl border border-[#E0C179]/20">
-          <span id="seconds" class="block font-serif text-2xl sm:text-4xl text-[#E0C179] font-bold">00</span>
-          <span class="text-[10px] sm:text-xs text-stone-300 uppercase">Sec</span>
-        </div>
-      </div>
-
-      <p class="text-xs sm:text-sm text-stone-300">Samedi 12 Septembre 2026 à Kinshasa</p>
-    </section>
-
-    <!-- Programme / Détails de la Cérémonie -->
-    <section class="grid md:grid-cols-2 gap-6">
-      <div class="bg-white border border-stone-200 p-6 sm:p-8 rounded-2xl shadow-sm text-center space-y-3">
-        <div class="w-10 h-10 mx-auto bg-[#FAF8F5] rounded-full flex items-center justify-center text-[#E0C179]">💍</div>
-        <h3 class="font-serif text-xl text-[#382333] font-semibold">Cérémonie Religieuse</h3>
-        <p class="text-xs sm:text-sm text-stone-600">Heure : 15h00 précise</p>
-        <p class="text-xs sm:text-sm text-stone-500">Kinshasa, RDC</p>
-      </div>
-
-      <div class="bg-white border border-stone-200 p-6 sm:p-8 rounded-2xl shadow-sm text-center space-y-3">
-        <div class="w-10 h-10 mx-auto bg-[#FAF8F5] rounded-full flex items-center justify-center text-[#E0C179]">🥂</div>
-        <h3 class="font-serif text-xl text-[#382333] font-semibold">Soirée de Gala</h3>
-        <p class="text-xs sm:text-sm text-stone-600">Heure : À partir de 20h00</p>
-        <p class="text-xs sm:text-sm text-stone-500">Salle des Fêtes VIP, Kinshasa</p>
-      </div>
-    </section>
-
-    <!-- Formulaire RSVP -->
-    <section class="bg-white border border-[#E0C179]/30 rounded-2xl p-6 sm:p-10 shadow-xl space-y-6">
-      <div class="text-center space-y-2">
-        <h2 class="font-serif text-2xl sm:text-3xl text-[#382333]">Confirmation de Présence (RSVP)</h2>
-        <p class="text-xs sm:text-sm text-stone-500">Merci de répondre avant le 25 Août 2026</p>
-      </div>
-
-      <form id="wedding-form" class="space-y-6 max-w-xl mx-auto">
-        <!-- Présence -->
-        <div class="space-y-2">
-          <label class="block text-sm font-semibold text-stone-700">Serez-vous parmi nous ?</label>
-          <div class="grid grid-cols-2 gap-4">
-            <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-stone-50 transition">
-              <input type="radio" name="presence" value="Oui, je serai présent(e)" checked class="text-[#382333] focus:ring-[#E0C179]" />
-              <span class="ml-2 text-sm text-stone-700">Oui, avec joie !</span>
-            </label>
-            <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:bg-stone-50 transition">
-              <input type="radio" name="presence" value="Non, je ne pourrai pas" class="text-[#382333] focus:ring-[#E0C179]" />
-              <span class="ml-2 text-sm text-stone-700">Regrets</span>
-            </label>
+      <form id="wedding-form" class="space-y-8 sm:space-y-12">
+        
+        <!-- RSVP -->
+        <div class="space-y-4 sm:space-y-6">
+          <div class="border-b border-[#E0C179]/30 pb-4">
+            <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl text-[#382333]">Confirmation de Présence</h3>
+            <p class="text-[10px] sm:text-xs text-[#FAF9F6] font-semibold uppercase tracking-wider mt-3 bg-[#382333] inline-block px-3 py-1.5 rounded-lg shadow-sm">
+              Réponse souhaitée avant le 1er Septembre 2026
+            </p>
+          </div>
+          
+          <div class="space-y-3 pt-2">
+            <label class="block text-xs sm:text-sm font-medium text-stone-700">Serez-vous parmi nous ?</label>
+            <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
+              <label class="flex items-center gap-3 border border-stone-200 p-3.5 sm:p-4 rounded-2xl flex-1 cursor-pointer hover:border-[#E0C179] hover:bg-[#FAF9F6]/50 transition-all">
+                <input type="radio" name="presence" value="oui" required class="accent-[#382333] w-4 h-4">
+                <span class="text-xs sm:text-sm font-medium text-stone-800">Oui, avec plaisir</span>
+              </label>
+              <label class="flex items-center gap-3 border border-stone-200 p-3.5 sm:p-4 rounded-2xl flex-1 cursor-pointer hover:border-[#E0C179] hover:bg-[#FAF9F6]/50 transition-all">
+                <input type="radio" name="presence" value="non" class="accent-[#382333] w-4 h-4">
+                <span class="text-xs sm:text-sm font-medium text-stone-800">Malheureusement non</span>
+              </label>
+            </div>
           </div>
         </div>
 
-        <!-- Boisson préférée -->
-        <div class="space-y-2">
-          <label class="block text-sm font-semibold text-stone-700">Préférence de boisson</label>
-          <select name="boisson" id="boisson-select" class="w-full p-3 bg-stone-50 border rounded-xl text-sm focus:outline-none focus:border-[#E0C179]">
-            <option value="Champagne / Vin">Champagne &amp; Vin</option>
-            <option value="Bière / Cocktails">Bière &amp; Cocktails</option>
-            <option value="Jus / Softs">Jus &amp; Softs (Sans alcool)</option>
-          </select>
+        <!-- PRÉFÉRENCES DE BOISSONS & MUSIQUE -->
+        <div class="space-y-6 sm:space-y-8">
+          <div class="border-b border-[#E0C179]/30 pb-4">
+            <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl text-[#382333]">Préférences de la Fête</h3>
+          </div>
+
+          <!-- Boissons -->
+          <div class="space-y-5 sm:space-y-6">
+            <h4 class="font-serif text-lg sm:text-xl text-[#382333] border-l-2 border-[#E0C179] pl-3">Votre boisson préférée <span class="block sm:inline text-xs text-stone-400 font-sans font-normal">(Un seul choix possible)</span></h4>
+            
+            <div class="space-y-2.5 sm:space-y-3">
+              <label class="block text-[10px] sm:text-xs uppercase tracking-wider font-semibold text-stone-400">Boissons Alcoolisées</label>
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs sm:text-sm text-stone-700">
+                <label class="flex items-center gap-2 bg-[#FAF9F6] p-2.5 sm:p-3 rounded-xl hover:bg-[#E0C179]/10 border border-stone-100 transition-colors cursor-pointer"><input type="radio" name="boisson" value="Castel" class="accent-[#382333]"> Castel</label>
+                <label class="flex items-center gap-2 bg-[#FAF9F6] p-2.5 sm:p-3 rounded-xl hover:bg-[#E0C179]/10 border border-stone-100 transition-colors cursor-pointer"><input type="radio" name="boisson" value="Nkoyi" class="accent-[#382333]"> Nkoyi</label>
+                <label class="flex items-center gap-2 bg-[#FAF9F6] p-2.5 sm:p-3 rounded-xl hover:bg-[#E0C179]/10 border border-stone-100 transition-colors cursor-pointer"><input type="radio" name="boisson" value="Beaufort" class="accent-[#382333]"> Beaufort</label>
+                <label class="flex items-center gap-2 bg-[#FAF9F6] p-2.5 sm:p-3 rounded-xl hover:bg-[#E0C179]/10 border border-stone-100 transition-colors cursor-pointer"><input type="radio" name="boisson" value="Likofi" class="accent-[#382333]"> Likofi</label>
+                <label class="flex items-center gap-2 bg-[#FAF9F6] p-2.5 sm:p-3 rounded-xl hover:bg-[#E0C179]/10 border border-stone-100 transition-colors cursor-pointer"><input type="radio" name="boisson" value="Heineken" class="accent-[#382333]"> Heineken</label>
+                <label class="flex items-center gap-2 bg-[#FAF9F6] p-2.5 sm:p-3 rounded-xl hover:bg-[#E0C179]/10 border border-stone-100 transition-colors cursor-pointer"><input type="radio" name="boisson" value="Turbo" class="accent-[#382333]"> Turbo</label>
+                <label class="flex items-center gap-2 bg-[#FAF9F6] p-2.5 sm:p-3 rounded-xl hover:bg-[#E0C179]/10 border border-stone-100 transition-colors cursor-pointer"><input type="radio" name="boisson" value="Tembo" class="accent-[#382333]"> Tembo</label>
+                <label class="flex items-center gap-2 bg-[#FAF9F6] p-2.5 sm:p-3 rounded-xl hover:bg-[#E0C179]/10 border border-stone-100 transition-colors cursor-pointer"><input type="radio" name="boisson" value="33 Export" class="accent-[#382333]"> 33 Export</label>
+                <label class="flex items-center gap-2 bg-[#FAF9F6] p-2.5 sm:p-3 rounded-xl hover:bg-[#E0C179]/10 border border-stone-100 transition-colors cursor-pointer"><input type="radio" name="boisson" value="Legend" class="accent-[#382333]"> Legend</label>
+                <label class="flex items-center gap-2 bg-[#FAF9F6] p-2.5 sm:p-3 rounded-xl hover:bg-[#E0C179]/10 border border-stone-100 transition-colors cursor-pointer"><input type="radio" name="boisson" value="Primus" class="accent-[#382333]"> Primus</label>
+              </div>
+            </div>
+
+            <div class="space-y-2.5 sm:space-y-3 pt-2">
+              <label class="block text-[10px] sm:text-xs uppercase tracking-wider font-semibold text-stone-400">Boissons Sucrées / Softs</label>
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs sm:text-sm text-stone-700">
+                <label class="flex items-center gap-2 bg-[#FAF9F6] p-2.5 sm:p-3 rounded-xl hover:bg-[#E0C179]/10 border border-stone-100 transition-colors cursor-pointer"><input type="radio" name="boisson" value="Coca-Cola" class="accent-[#382333]"> Coca-Cola</label>
+                <label class="flex items-center gap-2 bg-[#FAF9F6] p-2.5 sm:p-3 rounded-xl hover:bg-[#E0C179]/10 border border-stone-100 transition-colors cursor-pointer"><input type="radio" name="boisson" value="Fanta" class="accent-[#382333]"> Fanta</label>
+                <label class="flex items-center gap-2 bg-[#FAF9F6] p-2.5 sm:p-3 rounded-xl hover:bg-[#E0C179]/10 border border-stone-100 transition-colors cursor-pointer"><input type="radio" name="boisson" value="Maltina" class="accent-[#382333]"> Maltina</label>
+                <label class="flex items-center gap-2 bg-[#FAF9F6] p-2.5 sm:p-3 rounded-xl hover:bg-[#E0C179]/10 border border-stone-100 transition-colors cursor-pointer"><input type="radio" name="boisson" value="Vitalo" class="accent-[#382333]"> Vitalo</label>
+                <label class="flex items-center gap-2 bg-[#FAF9F6] p-2.5 sm:p-3 rounded-xl hover:bg-[#E0C179]/10 border border-stone-100 transition-colors cursor-pointer"><input type="radio" name="boisson" value="Sprite" class="accent-[#382333]"> Sprite</label>
+                <label class="flex items-center gap-2 bg-[#FAF9F6] p-2.5 sm:p-3 rounded-xl hover:bg-[#E0C179]/10 border border-stone-100 transition-colors cursor-pointer"><input type="radio" name="boisson" value="Energy" class="accent-[#382333]"> Energy</label>
+                <label class="flex items-center gap-2 bg-[#FAF9F6] p-2.5 sm:p-3 rounded-xl hover:bg-[#E0C179]/10 border border-stone-100 transition-colors cursor-pointer"><input type="radio" name="boisson" value="Top" class="accent-[#382333]"> Top</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Musique -->
+          <div class="space-y-3 sm:space-y-4 pt-2 sm:pt-4">
+            <h4 class="font-serif text-lg sm:text-xl text-[#382333] border-l-2 border-[#E0C179] pl-3">Vos morceaux préférés</h4>
+            <p class="text-xs text-stone-500">Proposez 3 chansons que vous aimeriez écouter durant la soirée :</p>
+            
+            <div class="space-y-2.5 sm:space-y-3">
+              <input type="text" id="chanson-1" placeholder="Chanson 1 (Titre - Artiste)" class="w-full border border-stone-200 p-3 sm:p-3.5 rounded-xl text-xs sm:text-sm bg-[#FAF9F6] focus:outline-none focus:border-[#E0C179] focus:bg-white focus:ring-2 focus:ring-[#E0C179]/20 transition-all">
+              <input type="text" id="chanson-2" placeholder="Chanson 2 (Titre - Artiste)" class="w-full border border-stone-200 p-3 sm:p-3.5 rounded-xl text-xs sm:text-sm bg-[#FAF9F6] focus:outline-none focus:border-[#E0C179] focus:bg-white focus:ring-2 focus:ring-[#E0C179]/20 transition-all">
+              <input type="text" id="chanson-3" placeholder="Chanson 3 (Titre - Artiste)" class="w-full border border-stone-200 p-3 sm:p-3.5 rounded-xl text-xs sm:text-sm bg-[#FAF9F6] focus:outline-none focus:border-[#E0C179] focus:bg-white focus:ring-2 focus:ring-[#E0C179]/20 transition-all">
+            </div>
+          </div>
         </div>
 
-        <!-- Message pour les mariés -->
-        <div class="space-y-2">
-          <label class="block text-sm font-semibold text-stone-700">Un mot doux pour Steve & Joyce</label>
-          <textarea id="message-maries" rows="3" placeholder="Votre message..." class="w-full p-3 bg-stone-50 border rounded-xl text-sm focus:outline-none focus:border-[#E0C179]"></textarea>
+        <!-- MOT POUR LES MARIÉS -->
+        <div class="space-y-4">
+          <div class="border-b border-[#E0C179]/30 pb-4">
+            <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl text-[#382333]">Mot pour les Mariés</h3>
+          </div>
+
+          <div>
+            <label class="block text-xs sm:text-sm font-medium text-stone-700 mb-2">Votre message</label>
+            <textarea id="message-maries" rows="4" placeholder="Écrivez un petit mot doux pour Steve et Joyce..." class="w-full border border-stone-200 p-3.5 sm:p-4 rounded-xl text-xs sm:text-sm bg-[#FAF9F6] focus:outline-none focus:border-[#E0C179] focus:bg-white focus:ring-2 focus:ring-[#E0C179]/20 transition-all"></textarea>
+          </div>
         </div>
 
-        <button 
-          type="submit" 
-          id="submit-rsvp-btn"
-          class="w-full py-3.5 bg-[#382333] hover:bg-[#2A1825] text-[#E0C179] font-semibold rounded-xl text-sm transition shadow-lg"
-        >
-          Envoyer ma réponse
+        <button type="submit" id="submit-rsvp-btn" class="w-full bg-[#382333] hover:bg-[#1F151D] text-[#E0C179] font-semibold py-4 rounded-xl shadow-xl transition-all text-xs uppercase tracking-[0.2em] border border-[#E0C179]/40 cursor-pointer">
+          Envoyer la réponse
         </button>
+
       </form>
-    </section>
+    </div>
+  </section>
 
-  </main>
+  <!-- SECTION 6 : CADEAUX & DRESS CODE -->
+  <section id="section-infos" class="py-16 sm:py-24 px-4 bg-[#382333] text-[#FAF9F6] border-t border-[#E0C179]/20 relative overflow-hidden">
+    <div class="max-w-2xl mx-auto text-center space-y-12 relative z-10">
+      
+      <!-- Liste de mariage (Cadeaux en espèces) -->
+      <div class="space-y-4 bg-[#1F151D]/60 p-6 sm:p-8 rounded-3xl border border-[#E0C179]/20 shadow-xl backdrop-blur-sm">
+        <div class="w-12 h-12 rounded-full bg-[#E0C179]/10 border border-[#E0C179]/40 flex items-center justify-center mx-auto text-[#E0C179]">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <span class="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-[#E0C179] font-semibold block">Attentions</span>
+        <h3 class="font-serif text-2xl sm:text-3xl text-[#FAF9F6]">Liste de Mariage</h3>
+        <p class="text-xs sm:text-sm text-stone-300 font-light leading-relaxed max-w-lg mx-auto">
+          Votre présence est le plus beau des cadeaux. Toutefois, si vous souhaitez nous témoigner votre affection, une contribution en <span class="text-[#E0C179] font-medium">espèces</span> sera grandement appréciée pour nous aider à concrétiser nos projets futurs.
+        </p>
+      </div>
 
-  <!-- Footer -->
-  <footer class="text-center py-8 text-xs text-stone-400">
-    <p>© 2026 Steve & Joyce. Tous droits réservés.</p>
+      <!-- Dress Code -->
+      <div class="space-y-4 bg-[#1F151D]/60 p-6 sm:p-8 rounded-3xl border border-[#E0C179]/20 shadow-xl backdrop-blur-sm">
+        <div class="w-12 h-12 rounded-full bg-[#E0C179]/10 border border-[#E0C179]/40 flex items-center justify-center mx-auto text-[#E0C179]">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+          </svg>
+        </div>
+        <span class="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-[#E0C179] font-semibold block">Tenue de Fête</span>
+        <h3 class="font-serif text-2xl sm:text-3xl text-[#FAF9F6]">Dress Code</h3>
+        <p class="font-serif text-xl sm:text-2xl text-[#E0C179] italic font-medium">
+          « Votre plus beau vêtement »
+        </p>
+        <p class="text-xs sm:text-sm text-stone-300 font-light max-w-lg mx-auto">
+          Revêtez votre tenue la plus élégante pour célébrer cette journée inoubliable avec nous.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PIED DE PAGE -->
+  <footer class="py-8 sm:py-10 bg-[#1F151D] text-center text-[#E0C179]/70 text-xs border-t border-[#E0C179]/20 space-y-1">
+    <p class="font-serif text-base sm:text-lg text-[#E0C179]">Steve &amp; Joyce</p>
+    <p class="tracking-wide text-[10px] sm:text-xs">12 Septembre 2026 à 20h00 • Kinshasa</p>
   </footer>
 
-  <!-- CDN Supabase JS -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <!-- LOGIQUE JAVASCRIPT & SUPABASE -->
+  <!-- SCRIPTS JAVASCRIPT -->
   <script>
-    // 1. INITIALISATION SUPABASE
-    const SUPABASE_URL = "https://ioswtwteahaumpgmingq.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_faan40oD96N14XPBXfz0ow_wWfwdFoS";
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    let currentGuest = null;
-
-    // Nettoyage de la saisie utilisateur (retire civilités et espaces superflus)
-    function cleanInputName(name) {
-      return name
-        .replace(/^(mme|mr|monsieur|madame|m\.|dr|prof|maman|papa)\s+/gui, '')
-        .trim()
-        .replace(/\s+/g, ' ');
-    }
-
-    // 2. VÉRIFICATION DE L'INVITÉ
-    async function verifyGuest(event) {
-      if (event) event.preventDefault();
-
-      const rawInput = document.getElementById('guest-input-name').value;
-      const cleanedName = cleanInputName(rawInput);
+    function verifyGuest(event) {
+      event.preventDefault();
+      
+      const inputNameVal = document.getElementById('guest-input-name').value.trim().toUpperCase();
       const errorMessage = document.getElementById('error-message');
-      const authBtn = document.getElementById('auth-btn');
 
-      if (!cleanedName) {
+      if (!inputNameVal) {
         if (errorMessage) {
           errorMessage.textContent = "Veuillez entrer un nom valide.";
           errorMessage.classList.remove('hidden');
@@ -255,159 +398,94 @@
         return;
       }
 
-      if (authBtn) {
-        authBtn.textContent = "Vérification...";
-        authBtn.disabled = true;
+      if (errorMessage) {
+        errorMessage.classList.add('hidden');
       }
 
-      try {
-        // Recherche souple dans Supabase (matching du nom/postnom)
-        const { data, error } = await supabase
-          .from('guests')
-          .select('*')
-          .ilike('full_name', `%${cleanedName}%`)
-          .limit(1);
+      // Remonte immédiatement tout en haut de la page d'invitation
+      window.scrollTo(0, 0);
 
-        if (error) throw error;
+      // Met à jour le nom saisi
+      document.getElementById('guest-civilite').textContent = 'Invité(e)';
+      document.getElementById('guest-name').textContent = inputNameVal;
+      document.getElementById('guest-table').textContent = 'Table générale';
+      document.getElementById('guest-table-container').classList.remove('hidden');
 
-        if (!data || data.length === 0) {
-          if (errorMessage) {
-            errorMessage.textContent = "Désolé, votre nom n'a pas été trouvé sur la liste. Veuillez vérifier l'orthographe.";
-            errorMessage.classList.remove('hidden');
-          }
-          if (authBtn) {
-            authBtn.textContent = "Accéder à mon invitation";
-            authBtn.disabled = false;
-          }
-          return;
-        }
+      // Masque le formulaire au centre
+      const authBox = document.getElementById('auth-box');
+      if (authBox) {
+        authBox.style.opacity = '0';
+      }
 
-        // Invité trouvé
-        currentGuest = data[0];
+      // Déclenche l'ouverture en portail inverse : ly.png vers la DROITE, lk.png vers la GAUCHE
+      const leftEnvelope = document.getElementById('left-envelope');
+      const rightEnvelope = document.getElementById('right-envelope');
+      const overlay = document.getElementById('gates-overlay');
 
-        if (errorMessage) errorMessage.classList.add('hidden');
+      if (leftEnvelope) leftEnvelope.style.transform = 'translateX(100%)';
+      if (rightEnvelope) rightEnvelope.style.transform = 'translateX(-100%)';
 
-        // Remonter en haut de la page
-        window.scrollTo(0, 0);
-
-        // Injection des données dans la carte d'invitation
-        const guestNameEl = document.getElementById('guest-name');
-        const guestTableEl = document.getElementById('guest-table');
-        const guestTableContainer = document.getElementById('guest-table-container');
-
-        if (guestNameEl) guestNameEl.textContent = currentGuest.full_name;
-        if (guestTableEl) guestTableEl.textContent = currentGuest.table_name || 'Table Invités';
-        if (guestTableContainer) guestTableContainer.classList.remove('hidden');
-
-        // Animation d'ouverture des portes d'enveloppe
-        const authBox = document.getElementById('auth-box');
-        if (authBox) authBox.style.opacity = '0';
-
-        const leftEnvelope = document.getElementById('left-envelope');
-        const rightEnvelope = document.getElementById('right-envelope');
-        const overlay = document.getElementById('gates-overlay');
-
-        if (leftEnvelope) leftEnvelope.style.transform = 'translateX(-100%)';
-        if (rightEnvelope) rightEnvelope.style.transform = 'translateX(100%)';
-
-        if (overlay) {
+      // Retrait définitif de l'overlay après la transition
+      if (overlay) {
+        setTimeout(() => {
+          overlay.style.opacity = '0';
           setTimeout(() => {
-            overlay.style.opacity = '0';
-            setTimeout(() => {
-              overlay.style.display = 'none';
-            }, 1200);
-          }, 1800);
-        }
-
-      } catch (err) {
-        console.error("Erreur de vérification :", err);
-        if (errorMessage) {
-          errorMessage.textContent = "Erreur de connexion lors de la vérification. Veuillez réessayer.";
-          errorMessage.classList.remove('hidden');
-        }
-        if (authBtn) {
-          authBtn.textContent = "Accéder à mon invitation";
-          authBtn.disabled = false;
-        }
+            overlay.style.display = 'none';
+          }, 1200);
+        }, 1800);
       }
     }
 
-    // 3. SOUMISSION DU FORMULAIRE RSVP
-    const rsvpForm = document.getElementById('wedding-form');
-    if (rsvpForm) {
-      rsvpForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-
-        const submitBtn = document.getElementById('submit-rsvp-btn');
-        if (submitBtn) {
-          submitBtn.textContent = "Enregistrement...";
-          submitBtn.disabled = true;
-        }
-
-        const presence = document.querySelector('input[name="presence"]:checked')?.value || 'Non renseigné';
-        const boisson = document.getElementById('boisson-select')?.value || null;
-        const message = document.getElementById('message-maries')?.value.trim() || null;
-
-        const rsvpPayload = {
-          guest_name: currentGuest ? currentGuest.full_name : document.getElementById('guest-input-name').value.trim(),
-          presence: presence,
-          boisson: boisson,
-          message: message,
-          created_at: new Date().toISOString()
-        };
-
-        try {
-          const { error } = await supabase.from('rsvps').insert([rsvpPayload]);
-
-          if (error) throw error;
-
-          const formContainer = this.parentElement;
-          if (formContainer) {
-            formContainer.innerHTML = `
-              <div class="text-center py-8 sm:py-12 space-y-4">
-                <div class="w-16 h-16 bg-[#382333] text-[#E0C179] rounded-full flex items-center justify-center mx-auto text-2xl shadow-xl border border-[#E0C179]/40">
-                  ✓
-                </div>
-                <h3 class="font-serif text-2xl sm:text-3xl text-[#382333]">Merci infiniment !</h3>
-                <p class="text-stone-600 text-sm max-w-md mx-auto leading-relaxed">
-                  Votre confirmation a bien été enregistrée. Steve & Joyce se réjouissent de partager ce moment unique avec vous.
-                </p>
-              </div>
-            `;
-          }
-        } catch (err) {
-          console.error("Erreur RSVP :", err);
-          alert("Une erreur s'est produite lors de l'envoi de votre réponse. Veuillez réessayer.");
-          if (submitBtn) {
-            submitBtn.textContent = "Envoyer la réponse";
-            submitBtn.disabled = false;
-          }
-        }
-      });
-    }
-
-    // 4. COMPTE À REBOURS
+    // Compte à rebours dynamique
     const targetDate = new Date("September 12, 2026 20:00:00").getTime();
 
     function updateCountdown() {
       const now = new Date().getTime();
-      const diff = targetDate - now;
+      const difference = targetDate - now;
 
-      if (diff > 0) {
+      if (difference > 0) {
         const daysEl = document.getElementById('days');
         const hoursEl = document.getElementById('hours');
         const minutesEl = document.getElementById('minutes');
         const secondsEl = document.getElementById('seconds');
 
-        if (daysEl) daysEl.innerText = Math.floor(diff / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
-        if (hoursEl) hoursEl.innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
-        if (minutesEl) minutesEl.innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
-        if (secondsEl) secondsEl.innerText = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
+        if (daysEl) daysEl.innerText = Math.floor(difference / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+        if (hoursEl) hoursEl.innerText = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+        if (minutesEl) minutesEl.innerText = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+        if (secondsEl) secondsEl.innerText = Math.floor((difference % (1000 * 60)) / 1000).toString().padStart(2, '0');
       }
     }
-
+    
     setInterval(updateCountdown, 1000);
     updateCountdown();
+
+    // Soumission RSVP
+    document.getElementById('wedding-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const submitBtn = document.getElementById('submit-rsvp-btn');
+      if (submitBtn) {
+        submitBtn.textContent = "Enregistrement...";
+        submitBtn.disabled = true;
+      }
+
+      setTimeout(() => {
+        const formContainer = this.parentElement;
+        if (formContainer) {
+          formContainer.innerHTML = `
+            <div class="text-center py-8 sm:py-12 space-y-4 sm:space-y-6">
+              <div class="w-14 h-14 sm:w-16 sm:h-16 bg-[#382333] text-[#E0C179] rounded-full flex items-center justify-center mx-auto text-xl sm:text-2xl shadow-xl border border-[#E0C179]/40">
+                ✓
+              </div>
+              <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl text-[#382333]">Merci infiniment !</h3>
+              <p class="text-stone-600 text-xs sm:text-sm max-w-md mx-auto leading-relaxed">
+                Vos choix et votre message ont bien été enregistrés dans votre invitation. Steve & Joyce se réjouissent de partager ce moment unique avec vous.
+              </p>
+            </div>
+          `;
+        }
+      }, 800);
+    });
   </script>
 </body>
 </html>
