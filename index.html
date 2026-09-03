@@ -29,7 +29,7 @@
       will-change: opacity;
     }
 
-    /* Animation d'ouverture en portail (Gauche / Droite) */
+    /* Animation d'ouverture en portail */
     .envelope-panel {
       transition: transform 3.0s cubic-bezier(0.4, 0, 0.2, 1);
       will-change: transform;
@@ -49,17 +49,17 @@
     <!-- LUEUR DORÉE EN ARRIÈRE-PLAN -->
     <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_#ffffff_0%,_#fffdf4_35%,_#fcf3cc_70%,_#ebd492_100%)] z-0"></div>
 
-    <!-- PARTIE EN DESSOUS : ly.png (Glisse vers la gauche) -->
+    <!-- PARTIE EN DESSOUS : ly.png (Glisse désormais vers la DROITE) -->
     <div id="left-envelope" class="envelope-panel absolute inset-0 w-full h-full z-10 overflow-hidden">
       <img src="ly.png" alt="Partie ly" class="w-full h-full object-cover object-right">
     </div>
 
-    <!-- PARTIE AU-DESSUS : lk.png (Glisse vers la droite - Borne droite parfaitement superposée avec ly) -->
+    <!-- PARTIE AU-DESSUS : lk.png (Glisse désormais vers la GAUCHE) -->
     <div id="right-envelope" class="envelope-panel absolute inset-0 w-full h-full z-20 overflow-hidden drop-shadow-2xl">
       <img src="lk.png" alt="Partie lk" class="w-full h-full object-cover object-right">
     </div>
 
-    <!-- POP-UP DE SAISIE DU NOM (FIXÉ AU CENTRE AU MOMENT DE L'OUVERTURE) -->
+    <!-- POP-UP DE SAISIE DU NOM -->
     <div id="auth-modal-container" class="absolute inset-0 z-30 flex items-center justify-center p-4">
       <div id="auth-box" class="auth-box bg-[#382333]/95 border border-[#E0C179]/50 p-6 sm:p-8 md:p-10 rounded-3xl shadow-2xl max-w-md w-full text-center space-y-6 relative backdrop-blur-md">
         
@@ -417,13 +417,13 @@
         authBox.style.opacity = '0';
       }
 
-      // Déclenche l'ouverture en portail : ly.png vers la gauche, lk.png vers la droite
+      // Déclenche l'ouverture en portail inverse : ly.png vers la DROITE, lk.png vers la GAUCHE
       const leftEnvelope = document.getElementById('left-envelope');
       const rightEnvelope = document.getElementById('right-envelope');
       const overlay = document.getElementById('gates-overlay');
 
-      if (leftEnvelope) leftEnvelope.style.transform = 'translateX(-100%)';
-      if (rightEnvelope) rightEnvelope.style.transform = 'translateX(100%)';
+      if (leftEnvelope) leftEnvelope.style.transform = 'translateX(100%)';
+      if (rightEnvelope) rightEnvelope.style.transform = 'translateX(-100%)';
 
       // Retrait définitif de l'overlay après la transition
       if (overlay) {
