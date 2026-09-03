@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mariage de Steve & Joyce</title>
   
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- Google Fonts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -43,29 +43,24 @@
 </head>
 <body class="bg-[#FAF9F6] text-[#1F151D] antialiased selection:bg-[#E0C179]/30 selection:text-[#382333]">
 
-  <!-- OVERLAY GLOBAL : PORTAIL EMB OÎTÉ AVEC BORNES DROITES ALIGNÉES -->
   <div id="gates-overlay" class="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-white">
     
-    <!-- LUEUR DORÉE EN ARRIÈRE-PLAN -->
     <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_#ffffff_0%,_#fffdf4_35%,_#fcf3cc_70%,_#ebd492_100%)] z-0"></div>
 
-    <!-- PARTIE EN DESSOUS : ly.png (Glisse désormais vers la DROITE) -->
-    <div id="left-envelope" class="envelope-panel absolute inset-0 w-full h-full z-10 overflow-hidden">
-      <img src="ly.png" alt="Partie ly" class="w-full h-full object-cover object-right">
-    </div>
-
-    <!-- PARTIE AU-DESSUS : lk.png (Glisse désormais vers la GAUCHE) -->
-    <div id="right-envelope" class="envelope-panel absolute inset-0 w-full h-full z-20 overflow-hidden drop-shadow-2xl">
+    <div id="left-envelope" class="envelope-panel absolute inset-0 w-full h-full z-10 overflow-hidden drop-shadow-2xl">
       <img src="lk.png" alt="Partie lk" class="w-full h-full object-cover object-right">
     </div>
 
-    <!-- POP-UP DE SAISIE DU NOM -->
+    <div id="right-envelope" class="envelope-panel absolute inset-0 w-full h-full z-20 overflow-hidden">
+      <img src="ly.png" alt="Partie ly" class="w-full h-full object-cover object-right">
+    </div>
+
     <div id="auth-modal-container" class="absolute inset-0 z-30 flex items-center justify-center p-4">
       <div id="auth-box" class="auth-box bg-[#382333]/95 border border-[#E0C179]/50 p-6 sm:p-8 md:p-10 rounded-3xl shadow-2xl max-w-md w-full text-center space-y-6 relative backdrop-blur-md">
         
         <div class="space-y-2">
           <span class="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-[#E0C179] font-semibold">Invitation Exclusive</span>
-          <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl text-[#FAF9F6]">Steve &amp; Joyce</h3>
+          <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl text-[#FAF9F6]">Steve & Joyce</h3>
           <p class="text-xs text-stone-300 font-light pt-1">Veuillez entrer votre nom et prénom pour accéder à votre invitation.</p>
         </div>
 
@@ -86,7 +81,6 @@
 
   </div>
 
-  <!-- Bouton Flottant Mobile RSVP -->
   <div class="fixed bottom-4 right-4 z-40 md:hidden">
     <a href="#section-formulaire" class="bg-[#382333] text-[#E0C179] border border-[#E0C179]/50 font-medium px-4 py-3 rounded-full shadow-2xl flex items-center gap-2 text-[11px] uppercase tracking-widest backdrop-blur-md active:scale-95 transition-all">
       <svg class="w-4 h-4 text-[#E0C179]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
@@ -94,7 +88,6 @@
     </a>
   </div>
 
-  <!-- SECTION 1 : ACCUEIL -->
   <section id="section-accueil" class="min-h-screen flex flex-col justify-center items-center text-center px-4 py-8 sm:py-12 relative overflow-hidden" style="background: radial-gradient(circle at center, #483042 0%, #382333 70%, #22141f 100%);">
     
     <div class="relative w-full max-w-[280px] sm:max-w-sm md:max-w-md aspect-[3/4] flex flex-col justify-center items-center text-center p-4 sm:p-6">
@@ -120,7 +113,6 @@
     </div>
   </section>
 
-  <!-- SECTION 2 : PHOTO UNIQUE SJ.PNG -->
   <section id="section-maries" class="py-16 sm:py-24 px-4 bg-[#FAF9F6] border-b border-[#E0C179]/20">
     <div class="max-w-2xl mx-auto text-center space-y-6">
       <div class="w-full rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border-2 border-white ring-1 ring-[#E0C179]/30 bg-[#1F151D] transform transition-transform duration-700 hover:scale-[1.01]">
@@ -129,7 +121,6 @@
     </div>
   </section>
 
-  <!-- SECTION 3 : DATE, HEURE & COMPTE À REBOURS -->
   <section class="py-16 sm:py-24 px-4 bg-[#382333] text-[#FAF9F6] relative overflow-hidden">
     <div class="max-w-md mx-auto text-center space-y-8 sm:space-y-12 relative z-10">
       
@@ -189,13 +180,12 @@
     </div>
   </section>
 
-  <!-- SECTION 4 : LIEU & ITINÉRAIRE -->
   <section id="section-lieu" class="py-16 sm:py-24 px-4 bg-white border-b border-[#E0C179]/20">
     <div class="max-w-3xl mx-auto text-center space-y-8 sm:space-y-10">
       
       <div class="space-y-2 sm:space-y-3">
         <span class="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-[#382333] font-semibold">Célébration</span>
-        <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl text-[#382333]">Lieu &amp; Itinéraire</h2>
+        <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl text-[#382333]">Lieu & Itinéraire</h2>
       </div>
 
       <div class="space-y-4 bg-[#FAF9F6] p-6 sm:p-8 rounded-3xl border border-[#E0C179]/25 shadow-sm max-w-xl mx-auto">
@@ -215,7 +205,7 @@
       </div>
 
       <div class="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 pt-2">
-        <a href="https://www.google.com/maps/search/?api=1&query=Salle+Panass%C3%A9+Boulevard+Triomphal+Kinshasa" 
+        <a href="https://maps.google.com/?q=Salle+Panasse+Boulevard+Triomphal+Kinshasa" 
            target="_blank" 
            rel="noopener noreferrer"
            class="w-full sm:w-auto px-6 py-3.5 bg-[#382333] text-[#E0C179] border border-[#E0C179]/40 text-xs font-semibold uppercase tracking-widest rounded-xl hover:bg-[#1F151D] transition-all shadow-lg flex items-center justify-center gap-2.5">
@@ -235,13 +225,11 @@
     </div>
   </section>
 
-  <!-- SECTION 5 : FORMULAIRE RSVP & PRÉFÉRENCES -->
   <section id="section-formulaire" class="py-16 sm:py-24 px-4 bg-[#FAF9F6]">
     <div class="max-w-2xl mx-auto bg-white p-5 sm:p-8 md:p-14 rounded-3xl shadow-2xl border border-[#E0C179]/30 space-y-8 sm:space-y-12">
       
       <form id="wedding-form" class="space-y-8 sm:space-y-12">
         
-        <!-- RSVP -->
         <div class="space-y-4 sm:space-y-6">
           <div class="border-b border-[#E0C179]/30 pb-4">
             <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl text-[#382333]">Confirmation de Présence</h3>
@@ -265,13 +253,11 @@
           </div>
         </div>
 
-        <!-- PRÉFÉRENCES DE BOISSONS & MUSIQUE -->
         <div class="space-y-6 sm:space-y-8">
           <div class="border-b border-[#E0C179]/30 pb-4">
             <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl text-[#382333]">Préférences de la Fête</h3>
           </div>
 
-          <!-- Boissons -->
           <div class="space-y-5 sm:space-y-6">
             <h4 class="font-serif text-lg sm:text-xl text-[#382333] border-l-2 border-[#E0C179] pl-3">Votre boisson préférée <span class="block sm:inline text-xs text-stone-400 font-sans font-normal">(Un seul choix possible)</span></h4>
             
@@ -305,7 +291,6 @@
             </div>
           </div>
 
-          <!-- Musique -->
           <div class="space-y-3 sm:space-y-4 pt-2 sm:pt-4">
             <h4 class="font-serif text-lg sm:text-xl text-[#382333] border-l-2 border-[#E0C179] pl-3">Vos morceaux préférés</h4>
             <p class="text-xs text-stone-500">Proposez 3 chansons que vous aimeriez écouter durant la soirée :</p>
@@ -318,7 +303,6 @@
           </div>
         </div>
 
-        <!-- MOT POUR LES MARIÉS -->
         <div class="space-y-4">
           <div class="border-b border-[#E0C179]/30 pb-4">
             <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl text-[#382333]">Mot pour les Mariés</h3>
@@ -338,11 +322,9 @@
     </div>
   </section>
 
-  <!-- SECTION 6 : CADEAUX & DRESS CODE -->
   <section id="section-infos" class="py-16 sm:py-24 px-4 bg-[#382333] text-[#FAF9F6] border-t border-[#E0C179]/20 relative overflow-hidden">
     <div class="max-w-2xl mx-auto text-center space-y-12 relative z-10">
       
-      <!-- Liste de mariage (Cadeaux en espèces) -->
       <div class="space-y-4 bg-[#1F151D]/60 p-6 sm:p-8 rounded-3xl border border-[#E0C179]/20 shadow-xl backdrop-blur-sm">
         <div class="w-12 h-12 rounded-full bg-[#E0C179]/10 border border-[#E0C179]/40 flex items-center justify-center mx-auto text-[#E0C179]">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -356,7 +338,6 @@
         </p>
       </div>
 
-      <!-- Dress Code -->
       <div class="space-y-4 bg-[#1F151D]/60 p-6 sm:p-8 rounded-3xl border border-[#E0C179]/20 shadow-xl backdrop-blur-sm">
         <div class="w-12 h-12 rounded-full bg-[#E0C179]/10 border border-[#E0C179]/40 flex items-center justify-center mx-auto text-[#E0C179]">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -376,19 +357,26 @@
     </div>
   </section>
 
-  <!-- PIED DE PAGE -->
   <footer class="py-8 sm:py-10 bg-[#1F151D] text-center text-[#E0C179]/70 text-xs border-t border-[#E0C179]/20 space-y-1">
-    <p class="font-serif text-base sm:text-lg text-[#E0C179]">Steve &amp; Joyce</p>
+    <p class="font-serif text-base sm:text-lg text-[#E0C179]">Steve & Joyce</p>
     <p class="tracking-wide text-[10px] sm:text-xs">12 Septembre 2026 à 20h00 • Kinshasa</p>
   </footer>
 
-  <!-- SCRIPTS JAVASCRIPT -->
   <script>
-    function verifyGuest(event) {
+    // Initialisation de Supabase
+    const SUPABASE_URL = 'https://ioswtwteahaumpgmingq.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_faan40oD96N14XPBXfz0ow_wWfwdFoS';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // Variable globale pour stocker l'ID de l'invité connecté
+    let currentGuestId = null;
+
+    async function verifyGuest(event) {
       event.preventDefault();
       
-      const inputNameVal = document.getElementById('guest-input-name').value.trim().toUpperCase();
+      const inputNameVal = document.getElementById('guest-input-name').value.trim();
       const errorMessage = document.getElementById('error-message');
+      const authBtn = document.getElementById('auth-btn');
 
       if (!inputNameVal) {
         if (errorMessage) {
@@ -398,41 +386,85 @@
         return;
       }
 
-      if (errorMessage) {
-        errorMessage.classList.add('hidden');
+      if (authBtn) {
+        authBtn.textContent = "Vérification...";
+        authBtn.disabled = true;
       }
 
-      // Remonte immédiatement tout en haut de la page d'invitation
-      window.scrollTo(0, 0);
+      try {
+        // Recherche dans la base de données Supabase (insensible à la casse)
+        const { data, error } = await supabaseClient
+          .from('guest')
+          .select('*')
+          .ilike('nom_complet', `%${inputNameVal}%`)
+          .limit(1);
 
-      // Met à jour le nom saisi
-      document.getElementById('guest-civilite').textContent = 'Invité(e)';
-      document.getElementById('guest-name').textContent = inputNameVal;
-      document.getElementById('guest-table').textContent = 'Table générale';
-      document.getElementById('guest-table-container').classList.remove('hidden');
+        if (error) {
+          throw error;
+        }
 
-      // Masque le formulaire au centre
-      const authBox = document.getElementById('auth-box');
-      if (authBox) {
-        authBox.style.opacity = '0';
-      }
+        if (!data || data.length === 0) {
+          if (errorMessage) {
+            errorMessage.textContent = "Nom introuvable dans la liste des invités. Vérifiez l'orthographe.";
+            errorMessage.classList.remove('hidden');
+          }
+          if (authBtn) {
+            authBtn.textContent = "Accéder à mon invitation";
+            authBtn.disabled = false;
+          }
+          return;
+        }
 
-      // Déclenche l'ouverture en portail inverse : ly.png vers la DROITE, lk.png vers la GAUCHE
-      const leftEnvelope = document.getElementById('left-envelope');
-      const rightEnvelope = document.getElementById('right-envelope');
-      const overlay = document.getElementById('gates-overlay');
+        const guest = data[0];
+        currentGuestId = guest.id;
 
-      if (leftEnvelope) leftEnvelope.style.transform = 'translateX(100%)';
-      if (rightEnvelope) rightEnvelope.style.transform = 'translateX(-100%)';
+        if (errorMessage) {
+          errorMessage.classList.add('hidden');
+        }
 
-      // Retrait définitif de l'overlay après la transition
-      if (overlay) {
-        setTimeout(() => {
-          overlay.style.opacity = '0';
+        // Remonte tout en haut de la page
+        window.scrollTo(0, 0);
+
+        // Met à jour les informations de l'invité sur l'interface
+        document.getElementById('guest-civilite').textContent = 'Invité(e)';
+        document.getElementById('guest-name').textContent = guest.nom_complet;
+        document.getElementById('guest-table').textContent = guest.table_attribuee || 'Table générale';
+        document.getElementById('guest-table-container').classList.remove('hidden');
+
+        // Masque le formulaire au centre
+        const authBox = document.getElementById('auth-box');
+        if (authBox) {
+          authBox.style.opacity = '0';
+        }
+
+        // Déclenche l'ouverture en portail : lk.png vers la GAUCHE, ly.png vers la DROITE
+        const leftEnvelope = document.getElementById('left-envelope');
+        const rightEnvelope = document.getElementById('right-envelope');
+        const overlay = document.getElementById('gates-overlay');
+
+        if (leftEnvelope) leftEnvelope.style.transform = 'translateX(-100%)';
+        if (rightEnvelope) rightEnvelope.style.transform = 'translateX(100%)';
+
+        // Retrait définitif de l'overlay après la transition
+        if (overlay) {
           setTimeout(() => {
-            overlay.style.display = 'none';
-          }, 1200);
-        }, 1800);
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+              overlay.style.display = 'none';
+            }, 1200);
+          }, 1800);
+        }
+
+      } catch (err) {
+        console.error("Erreur de connexion :", err);
+        if (errorMessage) {
+          errorMessage.textContent = "Une erreur est survenue lors de la vérification. Réessayez.";
+          errorMessage.classList.remove('hidden');
+        }
+        if (authBtn) {
+          authBtn.textContent = "Accéder à mon invitation";
+          authBtn.disabled = false;
+        }
       }
     }
 
@@ -459,9 +491,14 @@
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    // Soumission RSVP
-    document.getElementById('wedding-form').addEventListener('submit', function(e) {
+    // Soumission RSVP vers Supabase
+    document.getElementById('wedding-form').addEventListener('submit', async function(e) {
       e.preventDefault();
+
+      if (!currentGuestId) {
+        alert("Veuillez d'abord vous identifier.");
+        return;
+      }
 
       const submitBtn = document.getElementById('submit-rsvp-btn');
       if (submitBtn) {
@@ -469,22 +506,54 @@
         submitBtn.disabled = true;
       }
 
-      setTimeout(() => {
-        const formContainer = this.parentElement;
-        if (formContainer) {
-          formContainer.innerHTML = `
-            <div class="text-center py-8 sm:py-12 space-y-4 sm:space-y-6">
-              <div class="w-14 h-14 sm:w-16 sm:h-16 bg-[#382333] text-[#E0C179] rounded-full flex items-center justify-center mx-auto text-xl sm:text-2xl shadow-xl border border-[#E0C179]/40">
-                ✓
+      // Récupération des valeurs du formulaire
+      const presenceVal = document.querySelector('input[name="presence"]:checked')?.value === 'oui';
+      const boissonVal = document.querySelector('input[name="boisson"]:checked')?.value || null;
+      const chanson1Val = document.getElementById('chanson-1').value.trim() || null;
+      const chanson2Val = document.getElementById('chanson-2').value.trim() || null;
+      const chanson3Val = document.getElementById('chanson-3').value.trim() || null;
+      const messageVal = document.getElementById('message-maries').value.trim() || null;
+
+      try {
+        const { error } = await supabaseClient
+          .from('guest')
+          .update({
+            present: presenceVal,
+            boisson: boissonVal,
+            chanson_1: chanson1Val,
+            chanson_2: chanson2Val,
+            chanson_3: chanson3Val,
+            message: messageVal
+          })
+          .eq('id', currentGuestId);
+
+        if (error) throw error;
+
+        setTimeout(() => {
+          const formContainer = this.parentElement;
+          if (formContainer) {
+            formContainer.innerHTML = `
+              <div class="text-center py-8 sm:py-12 space-y-4 sm:space-y-6">
+                <div class="w-14 h-14 sm:w-16 sm:h-16 bg-[#382333] text-[#E0C179] rounded-full flex items-center justify-center mx-auto text-xl sm:text-2xl shadow-xl border border-[#E0C179]/40">
+                  ✓
+                </div>
+                <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl text-[#382333]">Merci infiniment !</h3>
+                <p class="text-stone-600 text-xs sm:text-sm max-w-md mx-auto leading-relaxed">
+                  Vos choix et votre message ont bien été enregistrés dans votre invitation. Steve & Joyce se réjouissent de partager ce moment unique avec vous.
+                </p>
               </div>
-              <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl text-[#382333]">Merci infiniment !</h3>
-              <p class="text-stone-600 text-xs sm:text-sm max-w-md mx-auto leading-relaxed">
-                Vos choix et votre message ont bien été enregistrés dans votre invitation. Steve & Joyce se réjouissent de partager ce moment unique avec vous.
-              </p>
-            </div>
-          `;
+            `;
+          }
+        }, 800);
+
+      } catch (err) {
+        console.error("Erreur lors de l'enregistrement RSVP :", err);
+        alert("Une erreur est survenue lors de l'envoi de votre réponse. Veuillez réessayer.");
+        if (submitBtn) {
+          submitBtn.textContent = "Envoyer la réponse";
+          submitBtn.disabled = false;
         }
-      }, 800);
+      }
     });
   </script>
 </body>
