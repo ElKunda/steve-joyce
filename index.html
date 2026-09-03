@@ -43,20 +43,20 @@
 </head>
 <body class="bg-[#FAF9F6] text-[#1F151D] antialiased selection:bg-[#E0C179]/30 selection:text-[#382333]">
 
-  <!-- OVERLAY GLOBAL : PORTAIL EMB OÎTÉ GAUCHE (ly.png) & DROITE (lk.png) -->
+  <!-- OVERLAY GLOBAL : PORTAIL EMB OÎTÉ AVEC BORNES DROITES ALIGNÉES -->
   <div id="gates-overlay" class="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-white">
     
     <!-- LUEUR DORÉE EN ARRIÈRE-PLAN -->
     <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_#ffffff_0%,_#fffdf4_35%,_#fcf3cc_70%,_#ebd492_100%)] z-0"></div>
 
-    <!-- PARTIE DROITE : lk.png (Glisse sous ly.png et s'ouvre vers la droite) -->
-    <div id="right-envelope" class="envelope-panel absolute top-0 right-0 w-[60%] h-full z-10 overflow-hidden shadow-2xl">
-      <img src="ly.png" alt="Partie lk" class="w-full h-full object-cover object-left">
+    <!-- PARTIE EN DESSOUS : ly.png (Glisse vers la gauche) -->
+    <div id="left-envelope" class="envelope-panel absolute inset-0 w-full h-full z-10 overflow-hidden">
+      <img src="ly.png" alt="Partie ly" class="w-full h-full object-cover object-right">
     </div>
 
-    <!-- PARTIE GAUCHE : ly.png (Recouvre la partie droite pour l'emboîtement et s'ouvre vers la gauche) -->
-    <div id="left-envelope" class="envelope-panel absolute top-0 left-0 w-[60%] h-full z-20 overflow-hidden shadow-2xl">
-      <img src="lk.png" alt="Partie ly" class="w-full h-full object-cover object-right">
+    <!-- PARTIE AU-DESSUS : lk.png (Glisse vers la droite - Borne droite parfaitement superposée avec ly) -->
+    <div id="right-envelope" class="envelope-panel absolute inset-0 w-full h-full z-20 overflow-hidden drop-shadow-2xl">
+      <img src="lk.png" alt="Partie lk" class="w-full h-full object-cover object-right">
     </div>
 
     <!-- POP-UP DE SAISIE DU NOM (FIXÉ AU CENTRE AU MOMENT DE L'OUVERTURE) -->
