@@ -6,13 +6,11 @@
   <title>Mariage de Steve & Joyce</title>
   
   <script src="https://cdn.tailwindcss.com"></script>
-  
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-
   <style>
     :root {
       --prune-intense: #382333;
@@ -22,63 +20,41 @@
     }
     body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--ivoire); color: var(--noir-velours); }
     .font-serif { font-family: 'Cormorant Garamond', serif; }
-
+    
     /* Overlay global */
     #gates-overlay {
       transition: opacity 1.2s ease-in-out;
       will-change: opacity;
     }
-
     /* Animation d'ouverture en portail */
     .envelope-panel {
       transition: transform 3.0s cubic-bezier(0.4, 0, 0.2, 1);
       will-change: transform;
     }
-
-    /* Masquage du formulaire */
-    .auth-box {
-      transition: opacity 1.0s ease-in-out;
-    }
   </style>
 </head>
 <body class="bg-[#FAF9F6] text-[#1F151D] antialiased selection:bg-[#E0C179]/30 selection:text-[#382333]">
 
-  <div id="gates-overlay" class="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-white">
-    
+  <!-- Overlay de l'enveloppe avec les moitiés LK et LY -->
+  <div id="gates-overlay" class="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-white cursor-pointer" onclick="openEnvelope()">
     <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_#ffffff_0%,_#fffdf4_35%,_#fcf3cc_70%,_#ebd492_100%)] z-0"></div>
-
+    
+    <!-- Partie LK (Gauche) -->
     <div id="left-envelope" class="envelope-panel absolute inset-0 w-full h-full z-10 overflow-hidden drop-shadow-2xl">
       <img src="lk.png" alt="Partie lk" class="w-full h-full object-cover object-right">
     </div>
-
+    
+    <!-- Partie LY (Droite) -->
     <div id="right-envelope" class="envelope-panel absolute inset-0 w-full h-full z-20 overflow-hidden">
       <img src="ly.png" alt="Partie ly" class="w-full h-full object-cover object-right">
     </div>
 
-    <div id="auth-modal-container" class="absolute inset-0 z-30 flex items-center justify-center p-4">
-      <div id="auth-box" class="auth-box bg-[#382333]/95 border border-[#E0C179]/50 p-6 sm:p-8 md:p-10 rounded-3xl shadow-2xl max-w-md w-full text-center space-y-6 relative backdrop-blur-md">
-        
-        <div class="space-y-2">
-          <span class="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-[#E0C179] font-semibold">Invitation Exclusive</span>
-          <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl text-[#FAF9F6]">Steve & Joyce</h3>
-          <p class="text-xs text-stone-300 font-light pt-1">Veuillez entrer votre nom et prénom pour accéder à votre invitation.</p>
-        </div>
-
-        <form id="auth-form" onsubmit="verifyGuest(event)" class="space-y-4">
-          <div>
-            <input type="text" id="guest-input-name" required placeholder="Ex : MAMAN CHRISTINE SULU" class="w-full bg-[#1F151D] border border-[#E0C179]/40 text-[#FAF9F6] placeholder-stone-500 px-4 py-3.5 rounded-xl text-xs sm:text-sm focus:outline-none focus:border-[#E0C179] focus:ring-2 focus:ring-[#E0C179]/20 transition-all text-center uppercase">
-          </div>
-          
-          <div id="error-message" class="hidden text-xs text-rose-300 bg-rose-950/50 p-2.5 rounded-lg border border-rose-900/50"></div>
-
-          <button type="submit" id="auth-btn" class="w-full bg-[#E0C179] active:bg-[#FAF9F6] text-[#382333] font-semibold py-3.5 sm:py-4 rounded-xl shadow-lg transition-all text-xs uppercase tracking-[0.2em] cursor-pointer">
-            Accéder à mon invitation
-          </button>
-        </form>
-
+    <!-- Mention interactive au centre sur LK -->
+    <div class="absolute z-30 inset-0 flex flex-col items-center justify-center pointer-events-none p-4">
+      <div class="bg-[#382333]/80 border border-[#E0C179]/60 px-6 py-3 rounded-full backdrop-blur-md shadow-2xl animate-pulse text-center">
+        <p class="font-serif text-sm sm:text-base text-[#FAF9F6] tracking-widest uppercase">Appuyer sur le cachet pour ouvrir</p>
       </div>
     </div>
-
   </div>
 
   <div class="fixed bottom-4 right-4 z-40 md:hidden">
@@ -89,14 +65,13 @@
   </div>
 
   <section id="section-accueil" class="min-h-screen flex flex-col justify-center items-center text-center px-4 py-8 sm:py-12 relative overflow-hidden" style="background: radial-gradient(circle at center, #483042 0%, #382333 70%, #22141f 100%);">
-    
     <div class="relative w-full max-w-[280px] sm:max-w-sm md:max-w-md aspect-[3/4] flex flex-col justify-center items-center text-center p-4 sm:p-6">
       <img src="frame.png" alt="Cadre" class="absolute inset-0 w-full h-full object-contain pointer-events-none z-0 filter drop-shadow-[0_10px_25px_rgba(0,0,0,0.3)]">
       
       <div class="absolute top-[38%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-4/5 text-center space-y-2">
         <p id="guest-civilite" class="text-[10px] sm:text-[11px] uppercase tracking-[0.25em] text-[#E0C179] font-medium">Invité(e)</p>
         <div>
-          <p id="guest-name" class="font-serif text-sm sm:text-base md:text-xl text-[#FAF9F6] italic font-medium tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] border-b border-[#E0C179]/60 pb-2 inline-block max-w-full break-words">Chers Invités</p>
+          <p id="guest-name" class="font-serif text-sm sm:text-base md:text-xl text-[#FAF9F6] italic font-medium tracking-wide drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] border-b border-[#E0C179]/60 pb-2 inline-block max-w-full break-words">Chargement...</p>
         </div>
         <div id="guest-table-container" class="pt-1">
           <span class="text-[10px] sm:text-xs tracking-wider text-[#FAF9F6] bg-[#382333]/90 border border-[#E0C179]/40 px-2.5 py-1 rounded-full inline-block shadow-md">
@@ -105,7 +80,6 @@
         </div>
       </div>
     </div>
-
     <div class="absolute bottom-4 sm:bottom-6 z-10">
       <a href="#section-maries" class="inline-flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-[#E0C179]/60 text-[#E0C179] hover:bg-[#E0C179] hover:text-[#382333] transition-all duration-300 shadow-lg backdrop-blur-sm">
         ↓
@@ -123,38 +97,31 @@
 
   <section class="py-16 sm:py-24 px-4 bg-[#382333] text-[#FAF9F6] relative overflow-hidden">
     <div class="max-w-md mx-auto text-center space-y-8 sm:space-y-12 relative z-10">
-      
       <div class="space-y-2 sm:space-y-3">
         <span class="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-[#E0C179] font-semibold">Rendez-vous</span>
         <h3 class="font-serif text-2xl sm:text-3xl md:text-5xl text-[#FAF9F6] tracking-tight">Samedi 12 Septembre 2026</h3>
         <p class="font-serif text-xl sm:text-2xl md:text-3xl text-[#E0C179] italic">à 20h00</p>
       </div>
-
       <div class="space-y-4 pt-2 bg-[#1F151D]/40 p-4 sm:p-6 rounded-3xl border border-[#E0C179]/15 backdrop-blur-sm shadow-xl">
         <h4 class="font-serif text-xl sm:text-2xl text-[#E0C179] tracking-wider font-normal">Septembre 2026</h4>
-        
         <div class="max-w-xs mx-auto">
           <div class="grid grid-cols-7 gap-1 sm:gap-2 text-[10px] sm:text-xs text-[#E0C179]/70 font-semibold mb-3">
             <span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span>
           </div>
-
           <div class="grid grid-cols-7 gap-1 sm:gap-2 text-xs sm:text-sm text-[#FAF9F6] items-center justify-items-center">
             <span></span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span>
             <span>7</span><span>8</span><span>9</span><span>10</span><span>11</span>
-            
             <div class="relative flex items-center justify-center">
               <span class="w-7 h-7 sm:w-9 sm:h-9 flex items-center justify-center text-[#1F151D] font-bold bg-[#E0C179] rounded-full shadow-[0_0_15px_rgba(224,193,121,0.7)] transform scale-110">
                 12
               </span>
             </div>
-            
             <span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span>
             <span>20</span><span>21</span><span>22</span><span>23</span><span>24</span><span>25</span><span>26</span>
             <span>27</span><span>28</span><span>29</span><span>30</span>
           </div>
         </div>
       </div>
-
       <div class="pt-4 border-t border-[#E0C179]/20">
         <p class="text-[10px] sm:text-xs uppercase tracking-[0.25em] text-[#E0C179]/90 mb-4 sm:mb-6 font-medium">Compte à Rebours</p>
         <div class="grid grid-cols-4 gap-2 sm:gap-3 max-w-sm mx-auto">
@@ -176,18 +143,15 @@
           </div>
         </div>
       </div>
-
     </div>
   </section>
 
   <section id="section-lieu" class="py-16 sm:py-24 px-4 bg-white border-b border-[#E0C179]/20">
     <div class="max-w-3xl mx-auto text-center space-y-8 sm:space-y-10">
-      
       <div class="space-y-2 sm:space-y-3">
         <span class="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-[#382333] font-semibold">Célébration</span>
         <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl text-[#382333]">Lieu & Itinéraire</h2>
       </div>
-
       <div class="space-y-4 bg-[#FAF9F6] p-6 sm:p-8 rounded-3xl border border-[#E0C179]/25 shadow-sm max-w-xl mx-auto">
         <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl text-[#382333] font-normal">Salle Panassé</h3>
         <p class="text-sm sm:text-base font-light text-stone-700 flex items-center justify-center gap-2">
@@ -203,33 +167,22 @@
           </span>
         </div>
       </div>
-
       <div class="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 pt-2">
-        <a href="https://maps.google.com/?q=Salle+Panasse+Boulevard+Triomphal+Kinshasa" 
-           target="_blank" 
-           rel="noopener noreferrer"
-           class="w-full sm:w-auto px-6 py-3.5 bg-[#382333] text-[#E0C179] border border-[#E0C179]/40 text-xs font-semibold uppercase tracking-widest rounded-xl hover:bg-[#1F151D] transition-all shadow-lg flex items-center justify-center gap-2.5">
+        <a href="https://maps.google.com/?q=Salle+Panasse+Boulevard+Triomphal+Kinshasa" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-6 py-3.5 bg-[#382333] text-[#E0C179] border border-[#E0C179]/40 text-xs font-semibold uppercase tracking-widest rounded-xl hover:bg-[#1F151D] transition-all shadow-lg flex items-center justify-center gap-2.5">
           <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
           Google Maps
         </a>
-        
-        <a href="https://waze.com/ul?q=Salle%20Panasse%20Boulevard%20Triomphal%20Kinshasa&navigate=yes" 
-           target="_blank" 
-           rel="noopener noreferrer"
-           class="w-full sm:w-auto px-6 py-3.5 bg-[#FAF9F6] text-[#382333] border border-[#E0C179]/60 text-xs font-semibold uppercase tracking-widest rounded-xl hover:bg-[#E0C179]/10 transition-all shadow-md flex items-center justify-center gap-2.5">
+        <a href="https://waze.com/ul?q=Salle%20Panasse%20Boulevard%20Triomphal%20Kinshasa&navigate=yes" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-6 py-3.5 bg-[#FAF9F6] text-[#382333] border border-[#E0C179]/60 text-xs font-semibold uppercase tracking-widest rounded-xl hover:bg-[#E0C179]/10 transition-all shadow-md flex items-center justify-center gap-2.5">
           <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 15h-2v-2h2zm0-4h-2V7h2z"/></svg>
           Waze
         </a>
       </div>
-
     </div>
   </section>
 
   <section id="section-formulaire" class="py-16 sm:py-24 px-4 bg-[#FAF9F6]">
     <div class="max-w-2xl mx-auto bg-white p-5 sm:p-8 md:p-14 rounded-3xl shadow-2xl border border-[#E0C179]/30 space-y-8 sm:space-y-12">
-      
       <form id="wedding-form" class="space-y-8 sm:space-y-12">
-        
         <div class="space-y-4 sm:space-y-6">
           <div class="border-b border-[#E0C179]/30 pb-4">
             <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl text-[#382333]">Confirmation de Présence</h3>
@@ -237,7 +190,6 @@
               Réponse souhaitée avant le 1er Septembre 2026
             </p>
           </div>
-          
           <div class="space-y-3 pt-2">
             <label class="block text-xs sm:text-sm font-medium text-stone-700">Serez-vous parmi nous ?</label>
             <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
@@ -252,15 +204,13 @@
             </div>
           </div>
         </div>
-
+        
         <div class="space-y-6 sm:space-y-8">
           <div class="border-b border-[#E0C179]/30 pb-4">
             <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl text-[#382333]">Préférences de la Fête</h3>
           </div>
-
           <div class="space-y-5 sm:space-y-6">
             <h4 class="font-serif text-lg sm:text-xl text-[#382333] border-l-2 border-[#E0C179] pl-3">Votre boisson préférée <span class="block sm:inline text-xs text-stone-400 font-sans font-normal">(Un seul choix possible)</span></h4>
-            
             <div class="space-y-2.5 sm:space-y-3">
               <label class="block text-[10px] sm:text-xs uppercase tracking-wider font-semibold text-stone-400">Boissons Alcoolisées</label>
               <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs sm:text-sm text-stone-700">
@@ -276,7 +226,6 @@
                 <label class="flex items-center gap-2 bg-[#FAF9F6] p-2.5 sm:p-3 rounded-xl hover:bg-[#E0C179]/10 border border-stone-100 transition-colors cursor-pointer"><input type="radio" name="boisson" value="Primus" class="accent-[#382333]"> Primus</label>
               </div>
             </div>
-
             <div class="space-y-2.5 sm:space-y-3 pt-2">
               <label class="block text-[10px] sm:text-xs uppercase tracking-wider font-semibold text-stone-400">Boissons Sucrées / Softs</label>
               <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs sm:text-sm text-stone-700">
@@ -290,11 +239,9 @@
               </div>
             </div>
           </div>
-
           <div class="space-y-3 sm:space-y-4 pt-2 sm:pt-4">
             <h4 class="font-serif text-lg sm:text-xl text-[#382333] border-l-2 border-[#E0C179] pl-3">Vos morceaux préférés</h4>
             <p class="text-xs text-stone-500">Proposez 3 chansons que vous aimeriez écouter durant la soirée :</p>
-            
             <div class="space-y-2.5 sm:space-y-3">
               <input type="text" id="chanson-1" placeholder="Chanson 1 (Titre - Artiste)" class="w-full border border-stone-200 p-3 sm:p-3.5 rounded-xl text-xs sm:text-sm bg-[#FAF9F6] focus:outline-none focus:border-[#E0C179] focus:bg-white focus:ring-2 focus:ring-[#E0C179]/20 transition-all">
               <input type="text" id="chanson-2" placeholder="Chanson 2 (Titre - Artiste)" class="w-full border border-stone-200 p-3 sm:p-3.5 rounded-xl text-xs sm:text-sm bg-[#FAF9F6] focus:outline-none focus:border-[#E0C179] focus:bg-white focus:ring-2 focus:ring-[#E0C179]/20 transition-all">
@@ -302,29 +249,24 @@
             </div>
           </div>
         </div>
-
         <div class="space-y-4">
           <div class="border-b border-[#E0C179]/30 pb-4">
             <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl text-[#382333]">Mot pour les Mariés</h3>
           </div>
-
           <div>
             <label class="block text-xs sm:text-sm font-medium text-stone-700 mb-2">Votre message</label>
             <textarea id="message-maries" rows="4" placeholder="Écrivez un petit mot doux pour Steve et Joyce..." class="w-full border border-stone-200 p-3.5 sm:p-4 rounded-xl text-xs sm:text-sm bg-[#FAF9F6] focus:outline-none focus:border-[#E0C179] focus:bg-white focus:ring-2 focus:ring-[#E0C179]/20 transition-all"></textarea>
           </div>
         </div>
-
         <button type="submit" id="submit-rsvp-btn" class="w-full bg-[#382333] hover:bg-[#1F151D] text-[#E0C179] font-semibold py-4 rounded-xl shadow-xl transition-all text-xs uppercase tracking-[0.2em] border border-[#E0C179]/40 cursor-pointer">
           Envoyer la réponse
         </button>
-
       </form>
     </div>
   </section>
 
   <section id="section-infos" class="py-16 sm:py-24 px-4 bg-[#382333] text-[#FAF9F6] border-t border-[#E0C179]/20 relative overflow-hidden">
     <div class="max-w-2xl mx-auto text-center space-y-12 relative z-10">
-      
       <div class="space-y-4 bg-[#1F151D]/60 p-6 sm:p-8 rounded-3xl border border-[#E0C179]/20 shadow-xl backdrop-blur-sm">
         <div class="w-12 h-12 rounded-full bg-[#E0C179]/10 border border-[#E0C179]/40 flex items-center justify-center mx-auto text-[#E0C179]">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -337,7 +279,6 @@
           Votre présence est le plus beau des cadeaux. Toutefois, si vous souhaitez nous témoigner votre affection, une contribution en <span class="text-[#E0C179] font-medium">espèces</span> sera grandement appréciée pour nous aider à concrétiser nos projets futurs.
         </p>
       </div>
-
       <div class="space-y-4 bg-[#1F151D]/60 p-6 sm:p-8 rounded-3xl border border-[#E0C179]/20 shadow-xl backdrop-blur-sm">
         <div class="w-12 h-12 rounded-full bg-[#E0C179]/10 border border-[#E0C179]/40 flex items-center justify-center mx-auto text-[#E0C179]">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -353,7 +294,6 @@
           Revêtez votre tenue la plus élégante pour célébrer cette journée inoubliable avec nous.
         </p>
       </div>
-
     </div>
   </section>
 
@@ -367,120 +307,77 @@
     const SUPABASE_URL = 'https://ioswtwteahaumpgmingq.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_faan40oD96N14XPBXfz0ow_wWfwdFoS';
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    // Variable globale pour stocker l'ID de l'invité connecté
+    
     let currentGuestId = null;
 
-    async function verifyGuest(event) {
-      event.preventDefault();
-      
-      const inputNameVal = document.getElementById('guest-input-name').value.trim();
-      const errorMessage = document.getElementById('error-message');
-      const authBtn = document.getElementById('auth-btn');
+    // Authentification automatique au chargement de la page via les paramètres URL (ex: ?nom=MAMAN CHRISTINE SULU)
+    window.addEventListener('DOMContentLoaded', async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const guestNameParam = urlParams.get('nom') || urlParams.get('invite') || urlParams.get('guest');
 
-      if (!inputNameVal) {
-        if (errorMessage) {
-          errorMessage.textContent = "Veuillez entrer un nom valide.";
-          errorMessage.classList.remove('hidden');
-        }
+      if (!guestNameParam) {
+        document.getElementById('guest-name').textContent = "Chers Invités";
+        document.getElementById('guest-table').textContent = "Table générale";
         return;
       }
 
-      if (authBtn) {
-        authBtn.textContent = "Vérification...";
-        authBtn.disabled = true;
-      }
-
       try {
-        // Recherche dans la base de données Supabase (insensible à la casse)
         const { data, error } = await supabaseClient
           .from('guest')
           .select('*')
-          .ilike('nom_complet', `%${inputNameVal}%`)
+          .ilike('nom_complet', `%${guestNameParam}%`)
           .limit(1);
 
-        if (error) {
-          throw error;
+        if (error) throw error;
+
+        if (data && data.length > 0) {
+          const guest = data[0];
+          currentGuestId = guest.id;
+          document.getElementById('guest-civilite').textContent = 'Invité(e)';
+          document.getElementById('guest-name').textContent = guest.nom_complet;
+          document.getElementById('guest-table').textContent = guest.table_attribuee || 'Table générale';
+          document.getElementById('guest-table-container').classList.remove('hidden');
+        } else {
+          document.getElementById('guest-name').textContent = guestNameParam.toUpperCase();
+          document.getElementById('guest-table').textContent = 'Table générale';
         }
-
-        if (!data || data.length === 0) {
-          if (errorMessage) {
-            errorMessage.textContent = "Nom introuvable dans la liste des invités. Vérifiez l'orthographe.";
-            errorMessage.classList.remove('hidden');
-          }
-          if (authBtn) {
-            authBtn.textContent = "Accéder à mon invitation";
-            authBtn.disabled = false;
-          }
-          return;
-        }
-
-        const guest = data[0];
-        currentGuestId = guest.id;
-
-        if (errorMessage) {
-          errorMessage.classList.add('hidden');
-        }
-
-        // Remonte tout en haut de la page
-        window.scrollTo(0, 0);
-
-        // Met à jour les informations de l'invité sur l'interface
-        document.getElementById('guest-civilite').textContent = 'Invité(e)';
-        document.getElementById('guest-name').textContent = guest.nom_complet;
-        document.getElementById('guest-table').textContent = guest.table_attribuee || 'Table générale';
-        document.getElementById('guest-table-container').classList.remove('hidden');
-
-        // Masque le formulaire au centre
-        const authBox = document.getElementById('auth-box');
-        if (authBox) {
-          authBox.style.opacity = '0';
-        }
-
-        // Déclenche l'ouverture en portail : lk.png vers la GAUCHE, ly.png vers la DROITE
-        const leftEnvelope = document.getElementById('left-envelope');
-        const rightEnvelope = document.getElementById('right-envelope');
-        const overlay = document.getElementById('gates-overlay');
-
-        if (leftEnvelope) leftEnvelope.style.transform = 'translateX(-100%)';
-        if (rightEnvelope) rightEnvelope.style.transform = 'translateX(100%)';
-
-        // Retrait définitif de l'overlay après la transition
-        if (overlay) {
-          setTimeout(() => {
-            overlay.style.opacity = '0';
-            setTimeout(() => {
-              overlay.style.display = 'none';
-            }, 1200);
-          }, 1800);
-        }
-
       } catch (err) {
-        console.error("Erreur de connexion :", err);
-        if (errorMessage) {
-          errorMessage.textContent = "Une erreur est survenue lors de la vérification. Réessayez.";
-          errorMessage.classList.remove('hidden');
-        }
-        if (authBtn) {
-          authBtn.textContent = "Accéder à mon invitation";
-          authBtn.disabled = false;
-        }
+        console.error("Erreur de récupération automatique de l'invité :", err);
+        document.getElementById('guest-name').textContent = guestNameParam.toUpperCase();
+      }
+    });
+
+    // Fonction déclenchée lors de l'appui sur le cachet / l'enveloppe
+    function openEnvelope() {
+      window.scrollTo(0, 0);
+      
+      const leftEnvelope = document.getElementById('left-envelope');
+      const rightEnvelope = document.getElementById('right-envelope');
+      const overlay = document.getElementById('gates-overlay');
+
+      if (leftEnvelope) leftEnvelope.style.transform = 'translateX(-100%)';
+      if (rightEnvelope) rightEnvelope.style.transform = 'translateX(100%)';
+
+      if (overlay) {
+        setTimeout(() => {
+          overlay.style.opacity = '0';
+          setTimeout(() => {
+            overlay.style.display = 'none';
+          }, 1200);
+        }, 1800);
       }
     }
 
     // Compte à rebours dynamique
     const targetDate = new Date("September 12, 2026 20:00:00").getTime();
-
     function updateCountdown() {
       const now = new Date().getTime();
       const difference = targetDate - now;
-
       if (difference > 0) {
         const daysEl = document.getElementById('days');
         const hoursEl = document.getElementById('hours');
         const minutesEl = document.getElementById('minutes');
         const secondsEl = document.getElementById('seconds');
-
         if (daysEl) daysEl.innerText = Math.floor(difference / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
         if (hoursEl) hoursEl.innerText = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
         if (minutesEl) minutesEl.innerText = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
@@ -494,19 +391,13 @@
     // Soumission RSVP vers Supabase
     document.getElementById('wedding-form').addEventListener('submit', async function(e) {
       e.preventDefault();
-
-      if (!currentGuestId) {
-        alert("Veuillez d'abord vous identifier.");
-        return;
-      }
-
+      
       const submitBtn = document.getElementById('submit-rsvp-btn');
       if (submitBtn) {
         submitBtn.textContent = "Enregistrement...";
         submitBtn.disabled = true;
       }
 
-      // Récupération des valeurs du formulaire
       const presenceVal = document.querySelector('input[name="presence"]:checked')?.value === 'oui';
       const boissonVal = document.querySelector('input[name="boisson"]:checked')?.value || null;
       const chanson1Val = document.getElementById('chanson-1').value.trim() || null;
@@ -515,19 +406,20 @@
       const messageVal = document.getElementById('message-maries').value.trim() || null;
 
       try {
-        const { error } = await supabaseClient
-          .from('guest')
-          .update({
-            present: presenceVal,
-            boisson: boissonVal,
-            chanson_1: chanson1Val,
-            chanson_2: chanson2Val,
-            chanson_3: chanson3Val,
-            message: messageVal
-          })
-          .eq('id', currentGuestId);
-
-        if (error) throw error;
+        if (currentGuestId) {
+          const { error } = await supabaseClient
+            .from('guest')
+            .update({
+              present: presenceVal,
+              boisson: boissonVal,
+              chanson_1: chanson1Val,
+              chanson_2: chanson2Val,
+              chanson_3: chanson3Val,
+              message: messageVal
+            })
+            .eq('id', currentGuestId);
+          if (error) throw error;
+        }
 
         setTimeout(() => {
           const formContainer = this.parentElement;
@@ -545,7 +437,6 @@
             `;
           }
         }, 800);
-
       } catch (err) {
         console.error("Erreur lors de l'enregistrement RSVP :", err);
         alert("Une erreur est survenue lors de l'envoi de votre réponse. Veuillez réessayer.");
