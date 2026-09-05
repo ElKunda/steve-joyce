@@ -2,7 +2,7 @@
 <html lang="fr" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Mariage de Steve & Joyce</title>
   
   <script src="https://cdn.tailwindcss.com"></script>
@@ -18,15 +18,13 @@
       --ivoire: #FAF9F6;
       --noir-velours: #1F151D;
     }
-    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--ivoire); color: var(--noir-velours); }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--ivoire); color: var(--noir-velours); touch-action: manipulation; }
     .font-serif { font-family: 'Cormorant Garamond', serif; }
     
-    /* Overlay global */
     #gates-overlay {
       transition: opacity 1.2s ease-in-out;
       will-change: opacity;
     }
-    /* Animation d'ouverture en portail */
     .envelope-panel {
       transition: transform 3.0s cubic-bezier(0.4, 0, 0.2, 1);
       will-change: transform;
@@ -35,21 +33,37 @@
 </head>
 <body class="bg-[#FAF9F6] text-[#1F151D] antialiased selection:bg-[#E0C179]/30 selection:text-[#382333]">
 
-  <!-- Overlay de l'enveloppe avec les moitiés LK et LY -->
-  <div id="gates-overlay" class="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-white cursor-pointer" onclick="openEnvelope()">
+  <!-- Modal d'authentification si aucun lien personnalisé n'est utilisé -->
+  <div id="auth-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#382333]/95 backdrop-blur-md hidden">
+    <div class="bg-white max-w-md w-full p-6 sm:p-8 rounded-3xl shadow-2xl border border-[#E0C179]/40 text-center space-y-6">
+      <div class="space-y-2">
+        <span class="text-[10px] sm:text-xs uppercase tracking-[0.3em] text-[#E0C179] font-semibold bg-[#382333] px-3 py-1 rounded-full">Accès Sécurisé</span>
+        <h3 class="font-serif text-2xl sm:text-3xl text-[#382333]">Steve & Joyce</h3>
+        <p class="text-xs sm:text-sm text-stone-600">Veuillez entrer votre nom et prénom tels qu'indiqués sur votre invitation pour accéder au site.</p>
+      </div>
+      
+      <form id="auth-form" class="space-y-4">
+        <input type="text" id="auth-input-name" placeholder="Votre nom complet" required class="w-full border border-stone-300 p-3.5 rounded-xl text-xs sm:text-sm bg-[#FAF9F6] focus:outline-none focus:border-[#E0C179] focus:ring-2 focus:ring-[#E0C179]/20 transition-all text-center">
+        <button type="submit" id="auth-submit-btn" class="w-full bg-[#382333] hover:bg-[#1F151D] text-[#E0C179] font-semibold py-3.5 rounded-xl shadow-lg transition-all text-xs uppercase tracking-[0.2em] border border-[#E0C179]/40 cursor-pointer">
+          Accéder à l'invitation
+        </button>
+      </form>
+      <p id="auth-error" class="text-xs text-red-500 hidden">Nom introuvable. Veuillez vérifier l'orthographe ou contacter les mariés.</p>
+    </div>
+  </div>
+
+  <!-- Overlay de l'enveloppe -->
+  <div id="gates-overlay" class="fixed inset-0 z-40 flex items-center justify-center overflow-hidden bg-white cursor-pointer" onclick="openEnvelope()">
     <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_#ffffff_0%,_#fffdf4_35%,_#fcf3cc_70%,_#ebd492_100%)] z-0"></div>
     
-    <!-- Partie LK (Gauche) -->
     <div id="left-envelope" class="envelope-panel absolute inset-0 w-full h-full z-10 overflow-hidden drop-shadow-2xl">
       <img src="lk.png" alt="Partie lk" class="w-full h-full object-cover object-right">
     </div>
     
-    <!-- Partie LY (Droite) -->
     <div id="right-envelope" class="envelope-panel absolute inset-0 w-full h-full z-20 overflow-hidden">
       <img src="ly.png" alt="Partie ly" class="w-full h-full object-cover object-right">
     </div>
 
-    <!-- Mention interactive au centre sur LK -->
     <div class="absolute z-30 inset-0 flex flex-col items-center justify-center pointer-events-none p-4">
       <div class="bg-[#382333]/80 border border-[#E0C179]/60 px-6 py-3 rounded-full backdrop-blur-md shadow-2xl animate-pulse text-center">
         <p class="font-serif text-sm sm:text-base text-[#FAF9F6] tracking-widest uppercase">Appuyer sur le cachet pour ouvrir</p>
@@ -57,7 +71,7 @@
     </div>
   </div>
 
-  <div class="fixed bottom-4 right-4 z-40 md:hidden">
+  <div class="fixed bottom-4 right-4 z-30 md:hidden">
     <a href="#section-formulaire" class="bg-[#382333] text-[#E0C179] border border-[#E0C179]/50 font-medium px-4 py-3 rounded-full shadow-2xl flex items-center gap-2 text-[11px] uppercase tracking-widest backdrop-blur-md active:scale-95 transition-all">
       <svg class="w-4 h-4 text-[#E0C179]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
       RSVP
@@ -153,7 +167,7 @@
         <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl text-[#382333]">Lieu & Itinéraire</h2>
       </div>
       <div class="space-y-4 bg-[#FAF9F6] p-6 sm:p-8 rounded-3xl border border-[#E0C179]/25 shadow-sm max-w-xl mx-auto">
-        <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl text-[#382333] font-normal">Salle Panassé</h3>
+        <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl text-[#382333] font-normal">Salle Panacée</h3>
         <p class="text-sm sm:text-base font-light text-stone-700 flex items-center justify-center gap-2">
           <svg class="w-5 h-5 text-[#E0C179] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
@@ -163,16 +177,16 @@
         </p>
         <div>
           <span class="text-[10px] sm:text-xs uppercase tracking-wider text-[#E0C179] bg-[#1F151D] inline-block px-3 py-1.5 rounded-full font-medium shadow-sm">
-            Réf : En face du Musée National
+            Réf : Entre le Musée National et la Cathédrale du Centenaire
           </span>
         </div>
       </div>
       <div class="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 pt-2">
-        <a href="https://maps.google.com/?q=Salle+Panasse+Boulevard+Triomphal+Kinshasa" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-6 py-3.5 bg-[#382333] text-[#E0C179] border border-[#E0C179]/40 text-xs font-semibold uppercase tracking-widest rounded-xl hover:bg-[#1F151D] transition-all shadow-lg flex items-center justify-center gap-2.5">
+        <a href="https://maps.google.com/?q=Salle+Panacee+Boulevard+Triomphal+Kinshasa" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-6 py-3.5 bg-[#382333] text-[#E0C179] border border-[#E0C179]/40 text-xs font-semibold uppercase tracking-widest rounded-xl hover:bg-[#1F151D] transition-all shadow-lg flex items-center justify-center gap-2.5">
           <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
           Google Maps
         </a>
-        <a href="https://waze.com/ul?q=Salle%20Panasse%20Boulevard%20Triomphal%20Kinshasa&navigate=yes" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-6 py-3.5 bg-[#FAF9F6] text-[#382333] border border-[#E0C179]/60 text-xs font-semibold uppercase tracking-widest rounded-xl hover:bg-[#E0C179]/10 transition-all shadow-md flex items-center justify-center gap-2.5">
+        <a href="https://waze.com/ul?q=Salle%20Panacee%20Boulevard%20Triomphal%20Kinshasa&navigate=yes" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-6 py-3.5 bg-[#FAF9F6] text-[#382333] border border-[#E0C179]/60 text-xs font-semibold uppercase tracking-widest rounded-xl hover:bg-[#E0C179]/10 transition-all shadow-md flex items-center justify-center gap-2.5">
           <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 15h-2v-2h2zm0-4h-2V7h2z"/></svg>
           Waze
         </a>
@@ -303,29 +317,33 @@
   </footer>
 
   <script>
-    // Initialisation de Supabase
     const SUPABASE_URL = 'https://ioswtwteahaumpgmingq.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_faan40oD96N14XPBXfz0ow_wWfwdFoS';
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     
     let currentGuestId = null;
 
-    // Authentification automatique au chargement de la page via les paramètres URL (ex: ?nom=MAMAN CHRISTINE SULU)
+    // Gestion de l'authentification au chargement
     window.addEventListener('DOMContentLoaded', async () => {
       const urlParams = new URLSearchParams(window.location.search);
       const guestNameParam = urlParams.get('nom') || urlParams.get('invite') || urlParams.get('guest');
 
       if (!guestNameParam) {
-        document.getElementById('guest-name').textContent = "Chers Invités";
-        document.getElementById('guest-table').textContent = "Table générale";
+        // Pas de paramètre dans l'URL : on affiche la modale d'authentification obligatoire
+        document.getElementById('auth-modal').classList.remove('hidden');
         return;
       }
 
+      // Si le paramètre existe, on charge les données de l'invité
+      await loadGuestData(guestNameParam);
+    });
+
+    async function loadGuestData(nameQuery) {
       try {
         const { data, error } = await supabaseClient
           .from('guest')
           .select('*')
-          .ilike('nom_complet', `%${guestNameParam}%`)
+          .ilike('nom_complet', `%${nameQuery}%`)
           .limit(1);
 
         if (error) throw error;
@@ -338,16 +356,63 @@
           document.getElementById('guest-table').textContent = guest.table_attribuee || 'Table générale';
           document.getElementById('guest-table-container').classList.remove('hidden');
         } else {
-          document.getElementById('guest-name').textContent = guestNameParam.toUpperCase();
+          document.getElementById('guest-name').textContent = nameQuery.toUpperCase();
           document.getElementById('guest-table').textContent = 'Table générale';
         }
+        
+        // Masquer la modale d'authentification si elle était ouverte
+        document.getElementById('auth-modal').classList.add('hidden');
       } catch (err) {
-        console.error("Erreur de récupération automatique de l'invité :", err);
-        document.getElementById('guest-name').textContent = guestNameParam.toUpperCase();
+        console.error("Erreur de récupération de l'invité :", err);
+        document.getElementById('guest-name').textContent = nameQuery.toUpperCase();
+      }
+    }
+
+    // Soumission du formulaire de la modale d'authentification
+    document.getElementById('auth-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const inputName = document.getElementById('auth-input-name').value.trim();
+      const errorEl = document.getElementById('auth-error');
+      const submitBtn = document.getElementById('auth-submit-btn');
+
+      if (!inputName) return;
+
+      submitBtn.textContent = "Vérification...";
+      submitBtn.disabled = true;
+      errorEl.classList.add('hidden');
+
+      try {
+        const { data, error } = await supabaseClient
+          .from('guest')
+          .select('*')
+          .ilike('nom_complet', `%${inputName}%`)
+          .limit(1);
+
+        if (error) throw error;
+
+        if (data && data.length > 0) {
+          const guest = data[0];
+          currentGuestId = guest.id;
+          document.getElementById('guest-civilite').textContent = 'Invité(e)';
+          document.getElementById('guest-name').textContent = guest.nom_complet;
+          document.getElementById('guest-table').textContent = guest.table_attribuee || 'Table générale';
+          document.getElementById('guest-table-container').classList.remove('hidden');
+          
+          // Fermer la modale
+          document.getElementById('auth-modal').classList.add('hidden');
+        } else {
+          errorEl.classList.remove('hidden');
+          submitBtn.textContent = "Accéder à l'invitation";
+          submitBtn.disabled = false;
+        }
+      } catch (err) {
+        console.error("Erreur d'authentification :", err);
+        errorEl.classList.remove('hidden');
+        submitBtn.textContent = "Accéder à l'invitation";
+        submitBtn.disabled = false;
       }
     });
 
-    // Fonction déclenchée lors de l'appui sur le cachet / l'enveloppe
     function openEnvelope() {
       window.scrollTo(0, 0);
       
@@ -368,7 +433,6 @@
       }
     }
 
-    // Compte à rebours dynamique
     const targetDate = new Date("September 12, 2026 20:00:00").getTime();
     function updateCountdown() {
       const now = new Date().getTime();
@@ -388,7 +452,6 @@
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    // Soumission RSVP vers Supabase
     document.getElementById('wedding-form').addEventListener('submit', async function(e) {
       e.preventDefault();
       
